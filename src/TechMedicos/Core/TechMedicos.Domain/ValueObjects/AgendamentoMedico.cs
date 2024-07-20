@@ -8,12 +8,38 @@ namespace TechMedicos.Domain.ValueObjects
         {
             Crm = new Crm(crm);
             Data = data;
-            Horarios = horarios;
+            _horarios = new List<HorarioDisponivel>();
+            AdicionarHorarios(horarios);
+            Validar();
         }
 
+        private readonly List<HorarioDisponivel> _horarios;
+        public IReadOnlyCollection<HorarioDisponivel> Horarios => _horarios;
         public Crm Crm { get; private set; }
         public DateOnly Data { get; private set; }
-        public List<HorarioDisponivel> Horarios { get; private set; }
+
+        public void AdicionarHorarios(List<HorarioDisponivel> horarios)
+        {
+            foreach (var horario in horarios)
+                AdicionarHorario(horario);
+        }
+
+        public void AdicionarHorario(HorarioDisponivel horarioDisponivel)
+        {
+            if (_horarios.Any(x => x.HoraInicio >= horarioDisponivel.HoraInicio && x.HoraFim <= horarioDisponivel.HoraFim))
+                throw new DomainException("Já possui configuração de horário no período selecionado.");
+            _horarios.Add(horarioDisponivel);
+        }
+
+        private void Validar()
+        {
+            ArgumentNullException.ThrowIfNull(Crm);
+            ArgumentNullException.ThrowIfNull(Data);
+            ArgumentNullException.ThrowIfNull(Horarios);
+
+            if (Horarios.Count == 0)
+                throw new DomainException("Deve possuir horário disponível na agenda do médico");
+        }
 
         protected override IEnumerable<object> RetornarPropriedadesDeEquidade()
         {
