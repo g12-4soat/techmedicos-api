@@ -1,9 +1,10 @@
-﻿using TechMedicos.Domain.Aggregates;
+﻿using TechMedicos.Core;
+using TechMedicos.Domain.Entities;
 using TechMedicos.Domain.ValueObjects;
 
-namespace TechMedicos.Domain.Entities
+namespace TechMedicos.Domain.Aggregates
 {
-    public class Paciente : Usuario
+    public class Paciente : Usuario, IAggregateRoot
     {
         public Paciente(string nome, string senha, string cpf, string email)
             : base(nome, senha)

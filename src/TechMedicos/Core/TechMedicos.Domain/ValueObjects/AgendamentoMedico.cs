@@ -25,10 +25,10 @@ namespace TechMedicos.Domain.ValueObjects
 
     public class HorarioDisponivel : ValueObject
     {
-        public HorarioDisponivel(TimeOnly horaInicio, TimeOnly horaFim)
+        public HorarioDisponivel(TimeOnly horaInicio)
         {
             HoraInicio = horaInicio;
-            HoraFim = horaFim;
+            HoraFim = horaInicio.AddMinutes(50);
         }
 
         public TimeOnly HoraInicio { get; private set; }

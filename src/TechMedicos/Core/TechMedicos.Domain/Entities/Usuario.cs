@@ -1,11 +1,11 @@
 ﻿using TechMedicos.Core;
 
-namespace TechMedicos.Domain.Aggregates
+namespace TechMedicos.Domain.Entities
 {
-    public abstract class Usuario : Entity, IAggregateRoot
+    public abstract class Usuario : Entity
     {
-        protected Usuario(string nome, string senha) 
-        { 
+        protected Usuario(string nome, string senha)
+        {
             Nome = nome;
             Senha = senha;
         }
