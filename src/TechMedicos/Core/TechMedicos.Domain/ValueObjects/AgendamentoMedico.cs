@@ -20,13 +20,13 @@ namespace TechMedicos.Domain.ValueObjects
 
         public void AdicionarHorarios(List<HorarioDisponivel> horarios)
         {
-            foreach (var horario in horarios)
+            foreach (var horario in horarios.OrderBy(x => x.HoraInicio))
                 AdicionarHorario(horario);
         }
 
         public void AdicionarHorario(HorarioDisponivel horarioDisponivel)
         {
-            if (_horarios.Any(x => x.HoraInicio >= horarioDisponivel.HoraInicio && x.HoraFim <= horarioDisponivel.HoraFim))
+            if (_horarios.Any(x => x.HoraInicio <= horarioDisponivel.HoraInicio && x.HoraFim >= horarioDisponivel.HoraInicio))
                 throw new DomainException("Já possui configuração de horário no período selecionado.");
             _horarios.Add(horarioDisponivel);
         }

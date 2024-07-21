@@ -6,12 +6,13 @@ namespace TechMedicos.Domain.Aggregates
 {
     public class Medico : Usuario, IAggregateRoot
     {
-        public Medico(string nome, string senha, string crm, decimal valorConsulta)
+        public Medico(string nome, string senha, string crm, decimal valorConsulta, List<AgendamentoMedico> agendamentos)
             : base(nome, senha)
         {
             Crm = new Crm(crm);
             ValorConsulta = valorConsulta;
             _agendamentos = new List<AgendamentoMedico>();
+            AdicionarAgendamentos(agendamentos);
             Validar();
         }
 

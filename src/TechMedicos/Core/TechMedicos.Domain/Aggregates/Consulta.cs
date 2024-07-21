@@ -1,6 +1,5 @@
 ﻿using TechMedicos.Core;
 using TechMedicos.Domain.Enums;
-using TechMedicos.Domain.ValueObjects;
 
 namespace TechMedicos.Domain.Aggregates
 {
