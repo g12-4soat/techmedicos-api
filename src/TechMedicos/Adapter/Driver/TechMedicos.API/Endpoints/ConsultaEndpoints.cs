@@ -51,7 +51,11 @@ namespace TechMedicos.API.Endpoints
 
         private static async Task<IResult> CadastrarConsulta([FromBody] ConsultaRequestDTO consultaDto, [FromServices] IConsultaController consultaController)
         {
-            var consulta = await consultaController.CadastrarConsulta();
+            var consulta = await consultaController.CadastrarConsulta(
+                consultaDto.MedicoId,
+                consultaDto.PacienteId,
+                consultaDto.DataConsulta,
+                consultaDto.Valor);
 
             return consulta is not null
             ? Results.Created("api/consultas", consulta)
@@ -60,7 +64,12 @@ namespace TechMedicos.API.Endpoints
 
         private static async Task<IResult> AtualizarConsulta([FromRoute] int consultaId, [FromBody] ConsultaRequestDTO consultaDto, [FromServices] IConsultaController consultaController)
         {
-            var consulta = await consultaController.CadastrarConsulta();
+            var consulta = await consultaController.AtualizarConsulta(
+                consultaId, 
+                consultaDto.MedicoId, 
+                consultaDto.PacienteId,
+                consultaDto.DataConsulta,
+                consultaDto.Valor);
 
             return consulta is not null
             ? Results.Ok(consulta)
@@ -69,7 +78,7 @@ namespace TechMedicos.API.Endpoints
 
         private static async Task<IResult> BuscarConsultaPorId([FromRoute] int consultaId, [FromServices] IConsultaController consultaController)
         {
-            var consulta = await consultaController.BuscarConsultaPorId();
+            var consulta = await consultaController.BuscarConsultaPorId(consultaId);
 
             return consulta is not null
             ? Results.Ok(consulta)

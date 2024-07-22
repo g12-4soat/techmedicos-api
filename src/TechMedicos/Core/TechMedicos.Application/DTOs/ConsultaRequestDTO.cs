@@ -6,7 +6,34 @@ using System.Threading.Tasks;
 
 namespace TechMedicos.Application.DTOs
 {
+    /// <summary>
+    /// Schema utilizado para cadastro e atualização de consultas.
+    /// </summary>
     public class ConsultaRequestDTO
     {
+
+        /// <summary>
+        /// Id do Médico
+        /// </summary>
+        /// <example>1</example>
+        public int MedicoId { get; set; }
+
+        /// <summary>
+        /// Id do Paciente
+        /// </summary>
+        /// <example>1</example>
+        public int PacienteId { get; set; }
+
+        /// <summary>
+        /// Data da consulta
+        /// </summary>
+        /// <example>2024-07-21</example>
+        public DateTime DataConsulta { get; set; }
+
+        /// <summary>
+        /// Valor da consulta
+        /// </summary>
+        /// <example>500.0</example>
+        public decimal Valor { get; set; }
     }
 }
