@@ -6,16 +6,16 @@ namespace TechMedicos.Domain.Aggregates
 {
     public class Paciente : Usuario, IAggregateRoot
     {
-        public Paciente(string nome, string senha, string cpf, string email)
-            : base(nome, senha)
+        public Paciente(string nome, string cpf, string email)
+            : base(nome)
         {
             Cpf = new Cpf(cpf);
             Email = new Email(email);
             Validar();
         }
 
-        public Paciente(string id, string nome, string senha, string cpf, string email)
-            : base(id, nome, senha)
+        public Paciente(string id, string nome, string cpf, string email)
+            : base(id, nome)
         {
             Cpf = new Cpf(cpf);
             Email = new Email(email);
@@ -29,9 +29,7 @@ namespace TechMedicos.Domain.Aggregates
         private void Validar()
         {
             ArgumentException.ThrowIfNullOrEmpty(Nome);
-            ArgumentException.ThrowIfNullOrEmpty(Senha);
             ArgumentException.ThrowIfNullOrWhiteSpace(Nome);
-            ArgumentException.ThrowIfNullOrWhiteSpace(Senha);
             ArgumentNullException.ThrowIfNull(Cpf);
             ArgumentNullException.ThrowIfNull(Email);
 

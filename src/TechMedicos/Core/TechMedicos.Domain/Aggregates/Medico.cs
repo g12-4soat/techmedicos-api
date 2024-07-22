@@ -6,8 +6,8 @@ namespace TechMedicos.Domain.Aggregates
 {
     public class Medico : Usuario, IAggregateRoot
     {
-        public Medico(string nome, string senha, string crm, decimal valorConsulta)
-            : base(nome, senha)
+        public Medico(string nome, string crm, decimal valorConsulta)
+            : base(nome)
         {
             Crm = new Crm(crm);
             ValorConsulta = valorConsulta;
@@ -15,8 +15,8 @@ namespace TechMedicos.Domain.Aggregates
             Validar();
         }
 
-        public Medico(string id, string nome, string senha, string crm, decimal valorConsulta, List<AgendamentoMedico> agendamentos)
-            : base(id, nome, senha)
+        public Medico(string id, string nome, string crm, decimal valorConsulta, List<AgendamentoMedico> agendamentos)
+            : base(id, nome)
         {
             Crm = new Crm(crm);
             ValorConsulta = valorConsulta;
@@ -48,9 +48,7 @@ namespace TechMedicos.Domain.Aggregates
         private void Validar()
         {
             ArgumentException.ThrowIfNullOrEmpty(Nome);
-            ArgumentException.ThrowIfNullOrEmpty(Senha);
             ArgumentException.ThrowIfNullOrWhiteSpace(Nome);
-            ArgumentException.ThrowIfNullOrWhiteSpace(Senha);
             ArgumentNullException.ThrowIfNull(Crm);
             ArgumentNullException.ThrowIfNull(ValorConsulta);
 

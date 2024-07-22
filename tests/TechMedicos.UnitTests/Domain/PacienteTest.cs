@@ -11,27 +11,24 @@ namespace TechMedicos.UnitTests.Domain
         {
             // Arrange
             string nome = "Paciente Teste";
-            string senha = "123456";
             string cpf = "17191721375";
             string email = "teste@gmail.com";
 
             // Act
-            var paciente = new Paciente(nome, senha, cpf, email);
+            var paciente = new Paciente(nome, cpf, email);
 
             // Assert
             Assert.Equal(nome, paciente.Nome);
-            Assert.Equal(senha, paciente.Senha);
             Assert.Equal(cpf, paciente.Cpf.Numero);
             Assert.Equal(email, paciente.Email.EnderecoEmail);
         }
 
         [Theory]
-        [InlineData("", "123456", "17191721375", "teste@gmail.com")]
-        [InlineData("Paciente Teste 2", "", "17191721375", "teste@gmail.com")]
-        public void CriarPaciente_Invalido_DeveLancarArgumentException(string nome, string senha, string cpf, string email)
+        [InlineData("", "17191721375", "teste@gmail.com")]
+        public void CriarPaciente_Invalido_DeveLancarArgumentException(string nome, string cpf, string email)
         {
             // Arrange, Act & Assert
-            Assert.Throws<ArgumentException>(() => new Paciente(nome, senha, cpf, email));
+            Assert.Throws<ArgumentException>(() => new Paciente(nome, cpf, email));
         }
 
         [Fact]
@@ -39,12 +36,11 @@ namespace TechMedicos.UnitTests.Domain
         {
             // Arrange
             string nome = "a";
-            string senha = "123456";
             string cpf = "17191721375";
             string email = "teste@gmail.com";
 
             // Act & Assert
-            Assert.Throws<DomainException>(() => new Paciente(nome, senha, cpf, email));
+            Assert.Throws<DomainException>(() => new Paciente(nome, cpf, email));
         }
 
         [Theory]
@@ -72,17 +68,15 @@ namespace TechMedicos.UnitTests.Domain
             // Arrange
             string id = Guid.NewGuid().ToString();
             string nome = "Paciente Teste";
-            string senha = "123456";
             string cpf = "17191721375";
             string email = "teste@gmail.com";
 
             // Act
-            var paciente = new Paciente(id, nome, senha, cpf, email);
+            var paciente = new Paciente(id, nome, cpf, email);
 
             // Assert
             Assert.Equal(id, paciente.Id);
             Assert.Equal(nome, paciente.Nome);
-            Assert.Equal(senha, paciente.Senha);
             Assert.Equal(cpf, paciente.Cpf.Numero);
             Assert.Equal(email, paciente.Email.EnderecoEmail);
         }

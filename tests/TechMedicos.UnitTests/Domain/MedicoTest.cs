@@ -12,28 +12,24 @@ namespace TechMedicos.UnitTests.Domain
         {
             // Arrange
             string nome = "Medico Teste";
-            string senha = "123456";
             string crm = "0000/SP";
             decimal valorConsulta = 100;
 
             // Act
-            var medico = new Medico(nome, senha, crm, valorConsulta);
+            var medico = new Medico(nome, crm, valorConsulta);
 
             // Assert
             Assert.Equal(nome, medico.Nome);
-            Assert.Equal(senha, medico.Senha);
             Assert.Equal(crm, medico.Crm.Documento);
             Assert.Equal(valorConsulta, medico.ValorConsulta);
         }
 
         [Theory]
-        [InlineData("", "123456", "0000/SP", 100)]
-        [InlineData("Medico Teste 2", "", "0000/SP", 100)]
-        [InlineData("Medico Teste 2", "", "0000/SP", null)]
-        public void CriarMedico_Invalido_DeveLancarArgumentException(string nome, string senha, string crm, decimal valorConsulta)
+        [InlineData("", "0000/SP", 100)]
+        public void CriarMedico_Invalido_DeveLancarArgumentException(string nome, string crm, decimal valorConsulta)
         {
             // Arrange, Act & Assert
-            Assert.Throws<ArgumentException>(() => new Medico(nome, senha, crm, valorConsulta));
+            Assert.Throws<ArgumentException>(() => new Medico(nome, crm, valorConsulta));
         }
 
         [Fact]
@@ -41,12 +37,11 @@ namespace TechMedicos.UnitTests.Domain
         {
             // Arrange
             string nome = "a";
-            string senha = "123456";
             string crm = "0000/SP";
             decimal valorConsulta = 100;
 
             // Act & Assert
-            Assert.Throws<DomainException>(() => new Medico(nome, senha, crm, valorConsulta));
+            Assert.Throws<DomainException>(() => new Medico(nome, crm, valorConsulta));
         }
 
         [Theory]
@@ -59,7 +54,7 @@ namespace TechMedicos.UnitTests.Domain
         public void CriarMedico_CrmInvalido_DeveLancarException(string crm)
         {
             // Arrange, Act & Assert
-            Assert.Throws<DomainException>(() => new Medico("Medico Teste 2", "123456", crm, 100));
+            Assert.Throws<DomainException>(() => new Medico("Medico Teste 2", crm, 100));
         }
 
         [Fact]
@@ -68,17 +63,15 @@ namespace TechMedicos.UnitTests.Domain
             // Arrange
             string id = Guid.NewGuid().ToString();
             string nome = "Medico Teste";
-            string senha = "123456";
             string crm = "0000/SP";
             decimal valorConsulta = 100;
 
             // Act
-            var medico = new Medico(id, nome, senha, crm, valorConsulta, new List<AgendamentoMedico>());
+            var medico = new Medico(id, nome, crm, valorConsulta, new List<AgendamentoMedico>());
 
             // Assert
             Assert.Equal(id, medico.Id);
             Assert.Equal(nome, medico.Nome);
-            Assert.Equal(senha, medico.Senha);
             Assert.Equal(crm, medico.Crm.Documento);
             Assert.Equal(valorConsulta, medico.ValorConsulta);
         }
@@ -88,11 +81,10 @@ namespace TechMedicos.UnitTests.Domain
         {
             // Arrange
             string nome = "Medico Teste";
-            string senha = "123456";
             string crm = "0000/SP";
             decimal valorConsulta = 100;
             DateOnly dataAgendamento = new DateOnly(2024, 07, 21);
-            var medico = new Medico(nome, senha, crm, valorConsulta);
+            var medico = new Medico(nome, crm, valorConsulta);
             var agendamentos = new List<AgendamentoMedico>
             {
                 new AgendamentoMedico(crm, dataAgendamento, new List<HorarioDisponivel> 
@@ -116,11 +108,10 @@ namespace TechMedicos.UnitTests.Domain
         {
             // Arrange
             string nome = "Medico Teste";
-            string senha = "123456";
             string crm = "0000/SP";
             decimal valorConsulta = 100;
             DateOnly dataAgendamento = new DateOnly(2024, 07, 21);
-            var medico = new Medico(nome, senha, crm, valorConsulta);
+            var medico = new Medico(nome, crm, valorConsulta);
             var agendamentos = new List<AgendamentoMedico>
             {
                 new AgendamentoMedico(crm, dataAgendamento, new List<HorarioDisponivel>
@@ -148,11 +139,10 @@ namespace TechMedicos.UnitTests.Domain
         {
             // Arrange
             string nome = "Medico Teste";
-            string senha = "123456";
             string crm = "0000/SP";
             decimal valorConsulta = 100;
             DateOnly dataAgendamento = new DateOnly(2024, 07, 21);
-            var medico = new Medico(nome, senha, crm, valorConsulta);
+            var medico = new Medico(nome, crm, valorConsulta);
             var horariosDisponiveis = new List<HorarioDisponivel>
             {
                 new HorarioDisponivel(new TimeOnly(9, 00)),
@@ -168,11 +158,10 @@ namespace TechMedicos.UnitTests.Domain
         {
             // Arrange
             string nome = "Medico Teste";
-            string senha = "123456";
             string crm = "0000/SP";
             decimal valorConsulta = 100;
             DateOnly dataAgendamento = new DateOnly(2024, 07, 21);
-            var medico = new Medico(nome, senha, crm, valorConsulta);
+            var medico = new Medico(nome, crm, valorConsulta);
             var horariosDisponiveis = new List<HorarioDisponivel>
             {
                 new HorarioDisponivel(new TimeOnly(9, 30)),
