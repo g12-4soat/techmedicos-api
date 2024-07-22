@@ -46,8 +46,8 @@ namespace TechMedicos.Domain.Aggregates
             ArgumentNullException.ThrowIfNull(DataConsulta);
             ArgumentNullException.ThrowIfNull(Status);
             ArgumentNullException.ThrowIfNull(Valor);
-            ArgumentException.ThrowIfNullOrEmpty(MedicoId);
-            ArgumentException.ThrowIfNullOrEmpty(PacienteId);
+            ArgumentException.ThrowIfNullOrWhiteSpace(MedicoId);
+            ArgumentException.ThrowIfNullOrWhiteSpace(PacienteId);
         }
 
         public void Aceitar()
@@ -83,7 +83,6 @@ namespace TechMedicos.Domain.Aggregates
             if (Status == StatusConsulta.Realizada)
                 throw new DomainException("A consulta não pode ser cancelada pois ela já foi realizada.");
 
-            ArgumentException.ThrowIfNullOrEmpty(justificativa);
             ArgumentException.ThrowIfNullOrWhiteSpace(justificativa);
 
             if (justificativa.Length < 3 || justificativa.Length > 500)

@@ -47,7 +47,6 @@ namespace TechMedicos.Domain.Aggregates
 
         private void Validar()
         {
-            ArgumentException.ThrowIfNullOrEmpty(Nome);
             ArgumentException.ThrowIfNullOrWhiteSpace(Nome);
             ArgumentNullException.ThrowIfNull(Crm);
             ArgumentNullException.ThrowIfNull(ValorConsulta);

@@ -28,7 +28,6 @@ namespace TechMedicos.Domain.Aggregates
 
         private void Validar()
         {
-            ArgumentException.ThrowIfNullOrEmpty(Nome);
             ArgumentException.ThrowIfNullOrWhiteSpace(Nome);
             ArgumentNullException.ThrowIfNull(Cpf);
             ArgumentNullException.ThrowIfNull(Email);
