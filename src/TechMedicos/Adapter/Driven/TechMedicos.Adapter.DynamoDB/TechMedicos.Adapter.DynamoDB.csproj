@@ -7,8 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Repositories\" />
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.305.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\TechMedicos.Application\TechMedicos.Application.csproj" />
+    <ProjectReference Include="..\..\..\Core\TechMedicos.Domain\TechMedicos.Domain.csproj" />
   </ItemGroup>
 
 </Project>

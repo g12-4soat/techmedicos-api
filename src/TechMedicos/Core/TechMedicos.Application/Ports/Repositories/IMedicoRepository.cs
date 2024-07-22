@@ -9,6 +9,5 @@ namespace TechMedicos.Application.Ports.Repositories
         Task<Medico> ObterPorId(string medicoId);
         Task<Medico> Cadastrar(Medico medico);
         Task<Medico> Atualizar(Medico medico);
-        Task Deletar(string medicoId);
     }
 }
