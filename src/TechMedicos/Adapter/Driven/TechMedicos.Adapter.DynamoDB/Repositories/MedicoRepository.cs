@@ -3,6 +3,7 @@ using Amazon.DynamoDBv2.DataModel;
 using TechMedicos.Adapter.DynamoDB.Models;
 using TechMedicos.Application.Ports.Repositories;
 using TechMedicos.Domain.Aggregates;
+using TechMedicos.Domain.ValueObjects;
 
 namespace TechMedicos.Adapter.DynamoDB.Repositories
 {
@@ -51,10 +52,9 @@ namespace TechMedicos.Adapter.DynamoDB.Repositories
                 (
                     medicoDynamoModel.Id,
                     medicoDynamoModel.Nome,
-                    medicoDynamoModel.Senha,
                     medicoDynamoModel.Crm,
                     medicoDynamoModel.ValorConsulta,
-                    medicoDynamoModel.Agendamentos.ToList()
+                    medicoDynamoModel.Agendamentos?.ToList() ?? new List<AgendamentoMedico>()
                 );
 
             return medico;
@@ -66,14 +66,16 @@ namespace TechMedicos.Adapter.DynamoDB.Repositories
             var search = _context.ScanAsync<MedicoDbModel>(scanConditions);
             var medicoDbModels = await search.GetRemainingAsync();
 
+            if (medicoDbModels is null)
+                return null;
+
             var medicos = medicoDbModels.Select(medicoDynamoModel => new Medico
                 (
                     medicoDynamoModel.Id,
                     medicoDynamoModel.Nome,
-                    medicoDynamoModel.Senha,
                     medicoDynamoModel.Crm,
                     medicoDynamoModel.ValorConsulta,
-                    medicoDynamoModel.Agendamentos.ToList()
+                    medicoDynamoModel.Agendamentos?.ToList() ?? new List<AgendamentoMedico>()
                 )
             ).ToList();
 

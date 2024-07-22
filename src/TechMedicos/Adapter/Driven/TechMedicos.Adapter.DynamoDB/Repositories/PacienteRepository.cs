@@ -27,7 +27,6 @@ namespace TechMedicos.Adapter.DynamoDB.Repositories
                 (
                     pacienteDynamoModel.Id,
                     pacienteDynamoModel.Nome,
-                    pacienteDynamoModel.Senha,
                     pacienteDynamoModel.Cpf,
                     pacienteDynamoModel.Email
                 );

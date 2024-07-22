@@ -22,6 +22,5 @@ namespace TechMedicos.Adapter.DynamoDB.Models
         public string Crm { get; set; }
         public decimal ValorConsulta { get; set; }
         public string Nome { get; set; }
-        public string Senha { get; set; }
     }
 }
