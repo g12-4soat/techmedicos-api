@@ -52,21 +52,41 @@ namespace TechMedicos.Domain.Aggregates
 
         public void Aceitar()
         {
+            if (Status != StatusConsulta.Agendada)
+                throw new DomainException("Para confirmar a consulta ela deve estar agendada.");
+
             Status = StatusConsulta.Confirmada;
         }
 
-        public void Recusar(string? justificativa)
+        public void Recusar(string? justificativa = null)
         {
+            if (Status != StatusConsulta.Agendada)
+                throw new DomainException("Para recusar a consulta ela deve estar agendada.");
+
             Justificativa = justificativa;
             Status = StatusConsulta.Rejeitada;
         }
 
+        public void Realizar()
+        {
+            if (Status != StatusConsulta.Confirmada)
+                throw new DomainException("Para realizar a consulta ela deve estar confirmada.");
+
+            Status = StatusConsulta.Realizada;
+        }
+
         public void Cancelar(string justificativa)
         {
+            if (Status == StatusConsulta.Rejeitada)
+                throw new DomainException("A consulta não pode ser cancelada pois o médico não aceitou a consulta.");
+
+            if (Status == StatusConsulta.Realizada)
+                throw new DomainException("A consulta não pode ser cancelada pois ela já foi realizada.");
+
             ArgumentException.ThrowIfNullOrEmpty(justificativa);
             ArgumentException.ThrowIfNullOrWhiteSpace(justificativa);
 
-            if (justificativa.Length < 3 && justificativa.Length > 500)
+            if (justificativa.Length < 3 || justificativa.Length > 500)
                 throw new DomainException("Justificativa precisa ter entre 3 e 500 caracteres");
 
             Justificativa = justificativa;
