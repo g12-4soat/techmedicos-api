@@ -15,7 +15,7 @@ namespace TechMedicos.API.Endpoints
             app.MapPost("api/consultas", CadastrarConsulta)
                .WithTags(EndpointTagConstantes.TAG_CONSULTA)
                .WithMetadata(new SwaggerOperationAttribute(summary: "Realizar cadastro da consulta", description: "Efetua a criação da consulta"))
-               .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.OK, description: "Consulta criada com sucesso"))
+               .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.Created, description: "Consulta criada com sucesso"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.NotFound, type: typeof(ErrorResponseDTO), description: "Falha ao realizar a criação da consulta"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.InternalServerError, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"))

@@ -6,7 +6,6 @@ namespace TechMedicos.API.Configuration
     {
         public static IApplicationBuilder AddCustomMiddlewares(this IApplicationBuilder applicationBuilder)
         {
-            applicationBuilder.UseMiddleware<RequestLoggingMiddleware>();
             applicationBuilder.UseMiddleware<GlobalErrorHandlingMiddleware>();
 
             return applicationBuilder;

@@ -32,7 +32,7 @@ namespace TechMedicos.API.Endpoints
             app.MapPost("api/medicos/{medicoId}/agenda", CadastrarAgenda)
                .WithTags(EndpointTagConstantes.TAG_MEDICO)
                .WithMetadata(new SwaggerOperationAttribute(summary: "Realizar cadastro da agenda", description: "Efetua o cadastro dos horários disponiveis"))
-               .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.OK, type: typeof(AgendaResponseDTO), description: "Horários cadastrados com sucesso"))
+               .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.Created, type: typeof(AgendaResponseDTO), description: "Horários cadastrados com sucesso"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.NotFound, type: typeof(ErrorResponseDTO), description: "Falha ao realizar o cadastro"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.InternalServerError, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"))
