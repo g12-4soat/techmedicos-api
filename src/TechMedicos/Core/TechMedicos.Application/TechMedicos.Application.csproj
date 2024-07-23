@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <Folder Include="Gateways\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="DTOs\" />
     <Folder Include="UseCases\" />
     <Folder Include="Presenters\" />
   </ItemGroup>
