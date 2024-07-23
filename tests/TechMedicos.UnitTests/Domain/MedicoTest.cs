@@ -67,7 +67,7 @@ namespace TechMedicos.UnitTests.Domain
             decimal valorConsulta = 100;
 
             // Act
-            var medico = new Medico(id, nome, crm, valorConsulta, new List<AgendamentoMedico>());
+            var medico = new Medico(id, nome, crm, valorConsulta, new List<AgendaMedica>());
 
             // Assert
             Assert.Equal(id, medico.Id);
@@ -85,7 +85,7 @@ namespace TechMedicos.UnitTests.Domain
             decimal valorConsulta = 100;
             DateOnly dataAgendamento = new DateOnly(2024, 07, 21);
             var medico = new Medico(nome, crm, valorConsulta);
-            var agendamentos = new List<AgendamentoMedico>
+            var agendamentos = new List<AgendaMedica>
             {
                 new AgendamentoMedico(crm, dataAgendamento, new List<HorarioDisponivel> 
                 { 
@@ -112,7 +112,7 @@ namespace TechMedicos.UnitTests.Domain
             decimal valorConsulta = 100;
             DateOnly dataAgendamento = new DateOnly(2024, 07, 21);
             var medico = new Medico(nome, crm, valorConsulta);
-            var agendamentos = new List<AgendamentoMedico>
+            var agendamentos = new List<AgendaMedica>
             {
                 new AgendamentoMedico(crm, dataAgendamento, new List<HorarioDisponivel>
                 {

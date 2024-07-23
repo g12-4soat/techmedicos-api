@@ -1,4 +1,6 @@
-﻿namespace TechMedicos.Application.DTOs
+﻿using TechMedicos.Domain.Enums;
+
+namespace TechMedicos.Application.DTOs
 {
     /// <summary>
     /// Schema utilizado para retorno de consultas.
@@ -27,7 +29,7 @@
         /// Status da consulta
         /// </summary>
         /// <example>Agendada</example>
-        //public StatusConsulta Status { get; set; }
+        public StatusConsulta Status { get; set; }
 
         /// <summary>
         /// Valor da consulta

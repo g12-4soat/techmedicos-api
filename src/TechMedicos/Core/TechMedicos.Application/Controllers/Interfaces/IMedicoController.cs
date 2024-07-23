@@ -10,9 +10,9 @@ namespace TechMedicos.Application.Controllers.Interfaces
     public interface IMedicoController
     {
         Task<List<MedicoResponseDTO>> BuscarMedicos();
-        Task<AgendaResponseDTO> BuscarAgenda();
-        Task<AgendaResponseDTO> CadastrarAgenda();
-        Task<AgendaResponseDTO> AtualizarAgenda();
-        Task DeletarAgenda();
+        Task<AgendaMedicaResponseDTO> BuscarAgenda(int medicoId);
+        Task<AgendaMedicaResponseDTO> CadastrarAgenda(int medicoId, DateOnly data, List<HorarioDisponivelRequestDTO> horarios);
+        Task<AgendaMedicaResponseDTO> AtualizarAgenda(int medicoId, DateOnly data, List<HorarioDisponivelRequestDTO> horarios);
+        Task DeletarAgenda(int medicoId, DateOnly data);
     }
 }

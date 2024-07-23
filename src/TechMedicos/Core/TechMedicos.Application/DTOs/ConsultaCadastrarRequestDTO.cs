@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace TechMedicos.Application.DTOs
 {
     /// <summary>
-    /// Schema utilizado para cadastro e atualização de consultas.
+    /// Schema utilizado para cadastro de consultas.
     /// </summary>
-    public class ConsultaRequestDTO
+    public class ConsultaCadastrarRequestDTO
     {
 
         /// <summary>
