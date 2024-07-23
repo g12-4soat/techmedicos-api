@@ -7,7 +7,7 @@ namespace TechMedicos.Adapter.DynamoDB.Models
     [DynamoDBTable("medicos")]
     public class MedicoDbModel
     {
-        public MedicoDbModel(IEnumerable<AgendamentoMedico>? agendamentos, Crm crm, decimal valorConsulta, string nome)
+        public MedicoDbModel(IEnumerable<AgendaMedica>? agendamentos, Crm crm, decimal valorConsulta, string nome)
         {
             Id = Guid.NewGuid().ToString();
             Agendamentos = agendamentos;
@@ -18,7 +18,7 @@ namespace TechMedicos.Adapter.DynamoDB.Models
 
         [DynamoDBHashKey]
         public string Id { get; set; }
-        public IEnumerable<AgendamentoMedico>? Agendamentos { get; set; }
+        public IEnumerable<AgendaMedica>? Agendamentos { get; set; }
         public string Crm { get; set; }
         public decimal ValorConsulta { get; set; }
         public string Nome { get; set; }
