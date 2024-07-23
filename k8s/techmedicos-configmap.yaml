@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: techmedicos-api-configmap
+data:
+  DotnetEnviroment: "Production"
+  ServiceName: "techmedicos-api-service"

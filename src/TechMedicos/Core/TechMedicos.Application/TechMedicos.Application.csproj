@@ -10,7 +10,10 @@
     <Folder Include="Gateways\" />
     <Folder Include="UseCases\" />
     <Folder Include="Presenters\" />
-    <Folder Include="Ports\Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TechMedicos.Domain\TechMedicos.Domain.csproj" />
   </ItemGroup>
 
 </Project>

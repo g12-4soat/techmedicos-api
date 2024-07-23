@@ -10,7 +10,7 @@
                 return false;
             }
 #pragma warning restore IDE0041 // Use 'is null' check
-            return ReferenceEquals(left, right) || left.Equals(right);
+            return ReferenceEquals(left, right) || left!.Equals(right!);
         }
 
         protected static bool NotEqualOperator(ValueObject left, ValueObject right)
