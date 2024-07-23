@@ -11,38 +11,67 @@ namespace TechMedicos.Domain.Aggregates
         {
             Crm = new Crm(crm);
             ValorConsulta = valorConsulta;
-            _agendamentos = new List<AgendaMedica>();
+            _agendas = new List<AgendaMedica>();
             Validar();
         }
 
-        public Medico(string id, string nome, string crm, decimal valorConsulta, List<AgendaMedica> agendamentos)
+        public Medico(string id, string nome, string crm, decimal valorConsulta, List<AgendaMedica> agendas)
             : base(id, nome)
         {
             Crm = new Crm(crm);
             ValorConsulta = valorConsulta;
-            _agendamentos = new List<AgendaMedica>();
-            AdicionarAgendamentos(agendamentos);
+            _agendas = agendas;
             Validar();
         }
 
-        private readonly List<AgendaMedica> _agendamentos;
-        public IReadOnlyCollection<AgendaMedica> Agendamentos => _agendamentos;
+        private readonly List<AgendaMedica> _agendas;
+        public IReadOnlyCollection<AgendaMedica> agendas => _agendas;
         public Crm Crm { get; private set; }
         public decimal ValorConsulta { get; private set; }
         public IReadOnlyCollection<Consulta> Consultas { get; private set; } = default!;
 
-        public void AdicionarAgendamentos(List<AgendaMedica> agendamentos)
+
+        public void AdicionarAgendamento(AgendaMedica agenda)
         {
-            foreach (var agendamento in agendamentos)
-                AdicionarAgendamento(agendamento);
+            if (ValidarAgendamentoExistente(agenda))
+                throw new DomainException("Já possui uma agenda configurada para essa data selecionada.");
+
+            _agendas.Add(agenda);
         }
 
-        public void AdicionarAgendamento(AgendaMedica agendamentoMedico)
+        public void AtualizarAgendamento(AgendaMedica agenda)
         {
-            if (_agendamentos.Any(x => x.Data == agendamentoMedico.Data))
-                throw new DomainException("Já possui uma agenda configurada para essa data selecionada");
+            if (ValidarAgendamentoExistente(agenda))
+            {
+                DeletarAgenda(agenda);
+                AdicionarAgendamento(agenda);
+            }
+            else
+            {
+                throw new DomainException("Não existe nenhum agenda para a data selecionada.");
+            }
+        }
 
-            _agendamentos.Add(agendamentoMedico);
+        public void DeletarAgendamento(AgendaMedica agenda)
+        {
+            if (ValidarAgendamentoExistente(agenda))
+            {
+                DeletarAgenda(agenda);
+            }
+            else
+            {
+                throw new DomainException("Não existe nenhum agenda para a data selecionada.");
+            }
+        }
+
+        private void DeletarAgenda(AgendaMedica agenda)
+        {
+            _agendas.RemoveAll(x => x.Data == agenda.Data);
+        }
+
+        private bool ValidarAgendamentoExistente(AgendaMedica agenda)
+        {
+            return _agendas.Any(x => x.Data == agenda.Data);
         }
 
         private void Validar()

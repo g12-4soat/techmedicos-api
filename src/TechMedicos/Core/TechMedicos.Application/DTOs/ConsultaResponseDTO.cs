@@ -22,7 +22,7 @@ namespace TechMedicos.Application.DTOs
         /// <summary>
         /// Data da consulta
         /// </summary>
-        /// <example>2024-07-21</example>
+        /// <example>2024-07-21 09:00</example>
         public DateTime DataConsulta { get; set; }
 
         /// <summary>
