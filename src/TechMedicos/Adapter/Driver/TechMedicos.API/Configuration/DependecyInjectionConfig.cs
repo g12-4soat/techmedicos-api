@@ -1,4 +1,10 @@
-﻿namespace TechMedicos.API.Configuration
+﻿using Amazon.DynamoDBv2;
+using TechMedicos.Adapter.DynamoDB.Repositories;
+using TechMedicos.Application.Controllers;
+using TechMedicos.Application.Controllers.Interfaces;
+using TechMedicos.Application.Ports.Repositories;
+
+namespace TechMedicos.API.Configuration
 {
     public static class DependecyInjectionConfig
     {
