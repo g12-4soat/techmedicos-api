@@ -1,8 +1,10 @@
-﻿using TechMedicos.Application.Controllers.Interfaces;
+﻿using Mapster;
+using TechMedicos.Application.Controllers.Interfaces;
 using TechMedicos.Application.DTOs;
 using TechMedicos.Application.Gateways;
 using TechMedicos.Application.Gateways.Interfaces;
 using TechMedicos.Application.Ports.Repositories;
+using TechMedicos.Application.UseCases.Consultas;
 using TechMedicos.Domain.Enums;
 
 namespace TechMedicos.Application.Controllers
@@ -11,6 +13,8 @@ namespace TechMedicos.Application.Controllers
     {
         private readonly IConsultaRepository _consultaRepository;
         private readonly IConsultaGateway _consultaGateway;
+        private readonly IMedicoGateway _medicoGateway;
+        private readonly IPacienteGateway _pacienteGateway;
 
         public ConsultaController(IConsultaRepository consultaRepository, IConsultaGateway consultaGateway)
         {
@@ -18,19 +22,16 @@ namespace TechMedicos.Application.Controllers
             _consultaGateway = new ConsultaGateway(_consultaRepository);
         }
 
-        public Task<ConsultaResponseDTO> AtualizarConsulta(string consultaId, StatusConsulta statusConsulta, string justificativa)
+        public async Task<ConsultaResponseDTO> AtualizarConsulta(string consultaId, StatusConsulta statusConsulta, string justificativa)
         {
-            //usecase pra saber se a consulta existe e atualizar
-            //medico aceita e rejeita
-            //paciente aceita e cancela
-            //justificativa do médico = padrão
-            //justificativa do paciente = variável
-            throw new NotImplementedException();
+            var consulta = await ConsultaUseCases.Atualizar(consultaId, statusConsulta, justificativa, _consultaGateway);
+            return consulta.Adapt<ConsultaResponseDTO>();
         }
 
         public async Task<ConsultaResponseDTO> BuscarConsultaPorId(string consultaId)
         {
-           return await _consultaGateway.ObterPorId(consultaId);
+            var consulta = await _consultaGateway.ObterPorId(consultaId);
+            return consulta.Adapt<ConsultaResponseDTO>();
         }
 
         public Task<List<ConsultaResponseDTO>> BuscarConsultas()
@@ -39,14 +40,14 @@ namespace TechMedicos.Application.Controllers
             throw new NotImplementedException();
         }
 
-        public Task<ConsultaResponseDTO> CadastrarConsulta(string medicoId, string pacienteId, DateTime dataConsulta, decimal valor)
+        public async Task<ConsultaResponseDTO> CadastrarConsulta(string medicoId, string pacienteId, DateTime dataConsulta)
         {
-            //Validar se existe uma consulta com esse medico e paciente na data informada
-            //usar o buscarConsultas para retornar tudo e filtrar para aquele médico/paciente
-            //consultar e validar se o médico existe
-            //consultar e validar se o paciente existe
-            //Validar horário da agenda médica com a data informada para saber se está disponivel
-            //remover o decimal do valor, pq é estabelicido na domain do médico
+            await ConsultaUseCases.Cadastrar(medicoId, pacienteId, dataConsulta, _consultaGateway, _medicoGateway, _pacienteGateway);
+
+            //consultar e validar se o médico existe         - ok
+            //consultar e validar se o paciente existe       - ok
+            //Validar horário da agenda médica com a data informada para saber se está disponivel 
+            //remover o decimal do valor, pq é estabelicido na domain do médico - Ok
             throw new NotImplementedException();
         }
     }
