@@ -15,6 +15,6 @@ namespace TechMedicos.Application.DTOs
         /// Hora de início.
         /// </summary>
         /// <example>09:00</example>
-        public DateOnly HoraInicio { get; set; }        
+        public TimeOnly HoraInicio { get; set; }        
     }
 }

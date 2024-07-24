@@ -4,6 +4,7 @@ using TechMedicos.Domain.ValueObjects;
 
 namespace TechMedicos.Adapter.DynamoDB.Models
 {
+    [DynamoDBTable("pacientes")]
     public class PacienteDbModel
     {
         public PacienteDbModel(Cpf cpf, Email email, string nome)
@@ -12,6 +13,10 @@ namespace TechMedicos.Adapter.DynamoDB.Models
             Cpf = cpf.Numero;
             Email = email.EnderecoEmail;
             Nome = nome;
+        }
+        public PacienteDbModel()
+        {
+                
         }
 
         [DynamoDBHashKey]
