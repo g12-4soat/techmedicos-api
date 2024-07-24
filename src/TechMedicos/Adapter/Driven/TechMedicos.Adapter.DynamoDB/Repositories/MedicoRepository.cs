@@ -22,7 +22,7 @@ namespace TechMedicos.Adapter.DynamoDB.Repositories
         {
             var medicoDynamoModel = await _context.LoadAsync<MedicoDbModel>(medico.Id);
 
-            medicoDynamoModel.Agendamentos = medico.Agendamentos;
+            medicoDynamoModel.Agendamentos = medico.Agendas;
 
             await _context.SaveAsync(medicoDynamoModel);
             return medico;
@@ -31,7 +31,7 @@ namespace TechMedicos.Adapter.DynamoDB.Repositories
         public async Task<Medico> Cadastrar(Medico medico)
         {
             var medicoDynamoModel = new MedicoDbModel(
-                medico.Agendamentos,
+                medico.Agendas,
                 medico.Crm,
                 medico.ValorConsulta,
                 medico.Nome

@@ -27,5 +27,10 @@ namespace TechMedicos.Application.Gateways
         {
             return _consultaRepository.ObterPorId(consultaId);
         }
+
+        public Task<List<Consulta>> ObterTodos()
+        {
+            return _consultaRepository.ObterTodos();
+        }
     }
 }

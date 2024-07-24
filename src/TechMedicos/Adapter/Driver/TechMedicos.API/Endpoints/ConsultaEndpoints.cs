@@ -54,15 +54,14 @@ namespace TechMedicos.API.Endpoints
             var consulta = await consultaController.CadastrarConsulta(
                 consultaDto.MedicoId,
                 consultaDto.PacienteId,
-                consultaDto.DataConsulta,
-                consultaDto.Valor);
+                consultaDto.DataConsulta);
 
             return consulta is not null
             ? Results.Created("api/consultas", consulta)
             : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Erro ao cadastrar a consulta.", StatusCode = HttpStatusCode.BadRequest });
         }
 
-        private static async Task<IResult> AtualizarConsulta([FromRoute] int consultaId, [FromBody] ConsultaAtualizarRequestDTO consultaDto, [FromServices] IConsultaController consultaController)
+        private static async Task<IResult> AtualizarConsulta([FromRoute] string consultaId, [FromBody] ConsultaAtualizarRequestDTO consultaDto, [FromServices] IConsultaController consultaController)
         {
             var consulta = await consultaController.AtualizarConsulta(
                 consultaId,
@@ -74,7 +73,7 @@ namespace TechMedicos.API.Endpoints
             : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Erro ao atualizar a consulta.", StatusCode = HttpStatusCode.BadRequest });
         }
 
-        private static async Task<IResult> BuscarConsultaPorId([FromRoute] int consultaId, [FromServices] IConsultaController consultaController)
+        private static async Task<IResult> BuscarConsultaPorId([FromRoute] string consultaId, [FromServices] IConsultaController consultaController)
         {
             var consulta = await consultaController.BuscarConsultaPorId(consultaId);
 
