@@ -20,20 +20,20 @@ namespace TechMedicos.Application.Controllers
             _medicoGateway = new MedicoGateway(medicoRepository);
         }
 
-        public async Task<AgendaMedicaResponseDTO> AtualizarAgenda(string medicoId, DateOnly data, List<HorarioDisponivelRequestDTO> horarios)
+        public async Task<List<AgendaMedicaResponseDTO>> AtualizarAgenda(string medicoId, DateOnly data, List<HorarioDisponivelRequestDTO> horarios)
         {
             var horariosVO = horarios.Adapt<List<HorarioDisponivel>>();
             var medico = await MedicoUseCases.AtualizarAgenda(medicoId, data, horariosVO, _medicoGateway);
-            return medico.Adapt<AgendaMedicaResponseDTO>();
+            return medico.Agendas.Adapt<List<AgendaMedicaResponseDTO>>();
         }
 
-        public async Task<AgendaMedicaResponseDTO> BuscarAgenda(string medicoId)
+        public async Task<List<AgendaMedicaResponseDTO>> BuscarAgenda(string medicoId)
         {
             var medico = await MedicoUseCases.VerificarMedicoExistente(medicoId, _medicoGateway);
             if (!medico.Agendas.Any())
                 return null;
 
-            return medico.Adapt<AgendaMedicaResponseDTO>();
+            return medico.Agendas.Adapt<List<AgendaMedicaResponseDTO>>();
         }
 
         public async Task<List<MedicoResponseDTO>> BuscarMedicos()
@@ -42,11 +42,12 @@ namespace TechMedicos.Application.Controllers
             return medicos.Adapt<List<MedicoResponseDTO>>();
         }
 
-        public async Task<AgendaMedicaResponseDTO> CadastrarAgenda(string medicoId, DateOnly data, List<HorarioDisponivelRequestDTO> horarios)
+        public async Task<List<AgendaMedicaResponseDTO>> CadastrarAgenda(string medicoId, DateOnly data, List<HorarioDisponivelRequestDTO> horarios)
         {
             var horariosVO = horarios.Adapt<List<HorarioDisponivel>>();
             var medico = await MedicoUseCases.CadastrarAgenda(medicoId, data, horariosVO, _medicoGateway);
-            return medico.Adapt<AgendaMedicaResponseDTO>();
+
+            return medico.Agendas.Adapt<List<AgendaMedicaResponseDTO>>();
         }
 
         public async Task DeletarAgenda(string medicoId, DateOnly data)
