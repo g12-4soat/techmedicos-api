@@ -1,6 +1,4 @@
-﻿using Amazon.DynamoDBv2;
-
-namespace TechMedicos.API.Configuration
+﻿namespace TechMedicos.API.Configuration
 {
     public static class DependecyInjectionConfig
     {
@@ -8,6 +6,12 @@ namespace TechMedicos.API.Configuration
         {
             if (services is null) throw new ArgumentNullException(nameof(services));
 
+            services.AddScoped<IConsultaController, ConsultaController>();
+            services.AddScoped<IMedicoController, MedicoController>();
+
+            services.AddScoped<IConsultaRepository, ConsultaRepository>();
+            services.AddScoped<IMedicoRepository, MedicoRepository>();
+            services.AddScoped<IPacienteRepository, PacienteRepository>();
             services.AddSingleton<IAmazonDynamoDB>(sp =>
             {
                 var config = new AmazonDynamoDBConfig
