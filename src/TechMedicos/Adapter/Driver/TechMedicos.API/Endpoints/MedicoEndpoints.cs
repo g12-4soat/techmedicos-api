@@ -66,7 +66,7 @@ namespace TechMedicos.API.Endpoints
             : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Erro ao buscar médicos.", StatusCode = HttpStatusCode.BadRequest });
         }
 
-        private static async Task<IResult> BuscarAgenda([FromRoute] int medicoId, [FromServices] IMedicoController medicoController)
+        private static async Task<IResult> BuscarAgenda([FromRoute] string medicoId, [FromServices] IMedicoController medicoController)
         {
             var agenda = await medicoController.BuscarAgenda(medicoId);
 
@@ -75,7 +75,7 @@ namespace TechMedicos.API.Endpoints
             : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Erro ao buscar a agenda.", StatusCode = HttpStatusCode.BadRequest });
         }
 
-        private static async Task<IResult> CadastrarAgenda([FromRoute] int medicoId, [FromBody] AgendaMedicaRequestDTO agendaDto, [FromServices] IMedicoController medicoController)
+        private static async Task<IResult> CadastrarAgenda([FromRoute] string medicoId, [FromBody] AgendaMedicaRequestDTO agendaDto, [FromServices] IMedicoController medicoController)
         {
             var agenda = await medicoController.CadastrarAgenda(
                 medicoId,
@@ -87,7 +87,7 @@ namespace TechMedicos.API.Endpoints
             : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Erro ao cadastrar a agenda.", StatusCode = HttpStatusCode.BadRequest });
         }
 
-        private static async Task<IResult> AtualizarAgenda([FromRoute] int medicoId, [FromRoute] DateOnly data, [FromBody] List<HorarioDisponivelRequestDTO> horarios, [FromServices] IMedicoController medicoController)
+        private static async Task<IResult> AtualizarAgenda([FromRoute] string medicoId, [FromRoute] DateOnly data, [FromBody] List<HorarioDisponivelRequestDTO> horarios, [FromServices] IMedicoController medicoController)
         {
             var agenda = await medicoController.AtualizarAgenda(
                 medicoId,
@@ -99,7 +99,7 @@ namespace TechMedicos.API.Endpoints
             : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Erro ao atualizar a agenda.", StatusCode = HttpStatusCode.BadRequest });
         }
 
-        private static async Task<IResult> DeletarAgenda([FromRoute] int medicoId, [FromRoute] DateOnly data, [FromServices] IMedicoController medicoController)
+        private static async Task<IResult> DeletarAgenda([FromRoute] string medicoId, [FromRoute] DateOnly data, [FromServices] IMedicoController medicoController)
         {
             await medicoController.DeletarAgenda(medicoId, data);
             return Results.Ok();

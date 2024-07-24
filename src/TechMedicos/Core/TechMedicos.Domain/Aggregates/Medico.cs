@@ -25,7 +25,7 @@ namespace TechMedicos.Domain.Aggregates
         }
 
         private readonly List<AgendaMedica> _agendas;
-        public IReadOnlyCollection<AgendaMedica> agendas => _agendas;
+        public IReadOnlyCollection<AgendaMedica> Agendas => _agendas;
         public Crm Crm { get; private set; }
         public decimal ValorConsulta { get; private set; }
         public IReadOnlyCollection<Consulta> Consultas { get; private set; } = default!;
@@ -33,7 +33,7 @@ namespace TechMedicos.Domain.Aggregates
 
         public void AdicionarAgendamento(AgendaMedica agenda)
         {
-            if (ValidarAgendamentoExistente(agenda))
+            if (ValidarAgendamentoExistente(agenda.Data))
                 throw new DomainException("Já possui uma agenda configurada para essa data selecionada.");
 
             _agendas.Add(agenda);
@@ -41,9 +41,9 @@ namespace TechMedicos.Domain.Aggregates
 
         public void AtualizarAgendamento(AgendaMedica agenda)
         {
-            if (ValidarAgendamentoExistente(agenda))
+            if (ValidarAgendamentoExistente(agenda.Data))
             {
-                DeletarAgenda(agenda);
+                DeletarAgenda(agenda.Data);
                 AdicionarAgendamento(agenda);
             }
             else
@@ -52,11 +52,11 @@ namespace TechMedicos.Domain.Aggregates
             }
         }
 
-        public void DeletarAgendamento(AgendaMedica agenda)
+        public void DeletarAgendamento(DateOnly data)
         {
-            if (ValidarAgendamentoExistente(agenda))
+            if (ValidarAgendamentoExistente(data))
             {
-                DeletarAgenda(agenda);
+                DeletarAgenda(data);
             }
             else
             {
@@ -64,14 +64,14 @@ namespace TechMedicos.Domain.Aggregates
             }
         }
 
-        private void DeletarAgenda(AgendaMedica agenda)
+        private void DeletarAgenda(DateOnly data)
         {
-            _agendas.RemoveAll(x => x.Data == agenda.Data);
+            _agendas.RemoveAll(x => x.Data == data);
         }
 
-        private bool ValidarAgendamentoExistente(AgendaMedica agenda)
+        private bool ValidarAgendamentoExistente(DateOnly data)
         {
-            return _agendas.Any(x => x.Data == agenda.Data);
+            return _agendas.Any(x => x.Data == data);
         }
 
         private void Validar()

@@ -34,10 +34,10 @@ namespace TechMedicos.Application.Controllers
             return consulta.Adapt<ConsultaResponseDTO>();
         }
 
-        public Task<List<ConsultaResponseDTO>> BuscarConsultas()
+        public async Task<List<ConsultaResponseDTO>> BuscarConsultas()
         {
-            //criar no repository e na gateway o método de buscar todas as consultas sem filtro algum.
-            throw new NotImplementedException();
+            var consultas = await _consultaGateway.ObterTodos();
+            return consultas.Adapt<List<ConsultaResponseDTO>>();
         }
 
         public async Task<ConsultaResponseDTO> CadastrarConsulta(string medicoId, string pacienteId, DateTime dataConsulta)

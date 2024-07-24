@@ -3,6 +3,7 @@ using Amazon.DynamoDBv2.DataModel;
 using TechMedicos.Adapter.DynamoDB.Models;
 using TechMedicos.Application.Ports.Repositories;
 using TechMedicos.Domain.Aggregates;
+using TechMedicos.Domain.ValueObjects;
 
 namespace TechMedicos.Adapter.DynamoDB.Repositories
 {
@@ -30,7 +31,7 @@ namespace TechMedicos.Adapter.DynamoDB.Repositories
         public async Task<Consulta> Cadastrar(Consulta consulta)
         {
             var medicoDbModel =  new MedicoDbModel(
-                consulta.Medico.Agendamentos,
+                consulta.Medico.Agendas,
                 consulta.Medico.Crm,
                 consulta.Medico.ValorConsulta,
                 consulta.Medico.Nome
@@ -75,6 +76,27 @@ namespace TechMedicos.Adapter.DynamoDB.Repositories
                 );
 
             return consulta;
+        }
+
+        public async Task<List<Consulta>> ObterTodos()
+        {
+            var scanConditions = new List<ScanCondition>();
+            var search = _context.ScanAsync<ConsultaDbModel>(scanConditions);
+            var consultasDbModel = await search.GetRemainingAsync();
+
+            if (consultasDbModel is null)
+                return null;
+
+            var consultas = consultasDbModel.Select(consultaDynamoModel => new Consulta
+                (
+                   consultaDynamoModel.MedicoId,
+                   consultaDynamoModel.PacienteId,
+                   consultaDynamoModel.DataConsulta,
+                   consultaDynamoModel.Valor
+                )
+            ).ToList();
+
+            return consultas;
         }
     }
 }
