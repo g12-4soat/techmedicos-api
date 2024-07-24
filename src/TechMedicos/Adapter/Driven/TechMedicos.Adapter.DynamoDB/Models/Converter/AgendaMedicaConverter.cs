@@ -22,7 +22,6 @@ namespace TechMedicos.Adapter.DynamoDB.Models.Converter
         public object FromEntry(DynamoDBEntry entry)
         {
             var response = JsonConvert.DeserializeObject<List<AgendaMedica>>(entry.AsString().ToString());
-            //var response = JsonSerializer.Deserialize(entry.AsString(), typeof(List<AgendaMedica>));
             return response;
         }
     }
