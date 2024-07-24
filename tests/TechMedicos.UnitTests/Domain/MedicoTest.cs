@@ -77,7 +77,7 @@ namespace TechMedicos.UnitTests.Domain
         }
 
         [Fact]
-        public void AdicionarAgendamentos_DeveRetornarSucesso()
+        public void AdicionarAgendamento_DeveRetornarSucesso()
         {
             // Arrange
             string nome = "Medico Teste";
@@ -85,22 +85,20 @@ namespace TechMedicos.UnitTests.Domain
             decimal valorConsulta = 100;
             DateOnly dataAgendamento = new DateOnly(2024, 07, 21);
             var medico = new Medico(nome, crm, valorConsulta);
-            var agendamentos = new List<AgendaMedica>
-            {
-                new AgendamentoMedico(crm, dataAgendamento, new List<HorarioDisponivel> 
-                { 
+            var agendamentos = new AgendaMedica(dataAgendamento, new List<HorarioDisponivel>
+                {
                     new HorarioDisponivel(new TimeOnly(8, 30))
-                })
-            };
+                });
+
+
 
             // Act
-            medico.AdicionarAgendamentos(agendamentos);
+            medico.AdicionarAgendamento(agendamentos);
 
             // Assert
-            Assert.Equal(agendamentos.First().Crm.Documento, medico.Agendamentos.First().Crm.Documento);
-            Assert.Equal(agendamentos.First().Data, medico.Agendamentos.First().Data);
-            Assert.Equal(agendamentos.First().Horarios.First().HoraInicio, medico.Agendamentos.First().Horarios.First().HoraInicio);
-            Assert.Equal(agendamentos.First().Horarios.First().HoraInicio.AddMinutes(50), medico.Agendamentos.First().Horarios.First().HoraFim);
+            Assert.Equal(agendamentos.Data, medico.Agendas.First().Data);
+            Assert.Equal(agendamentos.Horarios.First().HoraInicio, medico.Agendas.First().Horarios.First().HoraInicio);
+            Assert.Equal(agendamentos.Horarios.First().HoraInicio.AddMinutes(50), medico.Agendas.First().Horarios.First().HoraFim);
         }
 
         [Fact]
@@ -112,17 +110,16 @@ namespace TechMedicos.UnitTests.Domain
             decimal valorConsulta = 100;
             DateOnly dataAgendamento = new DateOnly(2024, 07, 21);
             var medico = new Medico(nome, crm, valorConsulta);
-            var agendamentos = new List<AgendaMedica>
-            {
-                new AgendamentoMedico(crm, dataAgendamento, new List<HorarioDisponivel>
+            var agendamentos =
+                new AgendaMedica(dataAgendamento, new List<HorarioDisponivel>
                 {
                     new HorarioDisponivel(new TimeOnly(8, 30))
-                })
-            };
-            medico.AdicionarAgendamentos(agendamentos);
+                });
+
+            medico.AdicionarAgendamento(agendamentos);
 
             // Act & Assert
-            Assert.Throws<DomainException>(() => medico.AdicionarAgendamento(agendamentos.First()));
+            Assert.Throws<DomainException>(() => medico.AdicionarAgendamento(agendamentos));
         }
 
         [Theory]
@@ -131,7 +128,7 @@ namespace TechMedicos.UnitTests.Domain
         public void CriarAgendamentoMedico_Invalido_DeveLancarException(string crm, DateOnly data)
         {
             // Act & Assert
-            Assert.Throws<DomainException>(() => new AgendamentoMedico(crm, data, new List<HorarioDisponivel>()));
+            Assert.Throws<DomainException>(() => new AgendaMedica(data, new List<HorarioDisponivel>()));
         }
 
         [Fact]
@@ -150,7 +147,7 @@ namespace TechMedicos.UnitTests.Domain
             };
 
             // Arrange, Assert & Act
-            Assert.Throws<DomainException>(() => new AgendamentoMedico(crm, dataAgendamento, horariosDisponiveis));
+            Assert.Throws<DomainException>(() => new AgendaMedica(dataAgendamento, horariosDisponiveis));
         }
 
         [Fact]
@@ -169,8 +166,8 @@ namespace TechMedicos.UnitTests.Domain
             };
 
             // Arrange, Assert & Act
-            Assert.Throws<DomainException>(() => 
-                new AgendamentoMedico(crm, dataAgendamento, horariosDisponiveis)
+            Assert.Throws<DomainException>(() =>
+                new AgendaMedica(dataAgendamento, horariosDisponiveis)
                 .AdicionarHorario(new HorarioDisponivel(new TimeOnly(10, 20))));
         }
     }

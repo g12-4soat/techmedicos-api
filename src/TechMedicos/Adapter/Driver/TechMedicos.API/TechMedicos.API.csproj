@@ -24,6 +24,7 @@
     <ProjectReference Include="..\..\..\Core\TechMedicos.Application\TechMedicos.Application.csproj" />
     <ProjectReference Include="..\..\..\Core\TechMedicos.Core\TechMedicos.Core.csproj" />
     <ProjectReference Include="..\..\Driven\TechMedicos.Adapter.AWS.SecretsManager\TechMedicos.Adapter.AWS.SecretsManager.csproj" />
+    <ProjectReference Include="..\..\Driven\TechMedicos.Adapter.DynamoDB\TechMedicos.Adapter.DynamoDB.csproj" />
   </ItemGroup>
 
 </Project>

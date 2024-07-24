@@ -20,5 +20,21 @@ namespace TechMedicos.Application.UseCases.Medicos
 
             return medico;
         }
+
+        public static async Task<Medico> ValidarAgendaMedicaPorData(string id, DateTime dataConsulta, IMedicoGateway medicoGateway)
+        {
+            DateOnly dateOnly = DateOnly.FromDateTime(DateTime.Now);
+            TimeOnly timeOnly = TimeOnly.FromDateTime(DateTime.Now);
+
+            var medico = await VerificarMedicoExistente(id, medicoGateway);
+
+            if (!medico.Agendas.Any())
+                throw new DomainException($"Nenhuma agenda disponivel para esse médico: {id}");
+
+            if (!medico.Agendas.Where(x => x.Data == dateOnly && x.Horarios.Any(x => x.HoraInicio == timeOnly)).Any())
+                throw new DomainException($"Nenhuma agenda diponivel para esse horário informado: {dataConsulta}");
+
+            return medico;
+        }
     }
 }

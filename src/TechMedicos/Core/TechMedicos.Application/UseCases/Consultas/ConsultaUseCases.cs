@@ -42,6 +42,7 @@ namespace TechMedicos.Application.UseCases.Consultas
             var medico = await MedicoUseCases.VerificarMedicoExistente(medicoId, medicoGateway);
             await PacienteUseCases.VerificarPacienteExistente(pacienteId, pacienteGateway);
             var consulta = new Consulta(medicoId, pacienteId, dataConsulta, medico.ValorConsulta);
+            await MedicoUseCases.ValidarAgendaMedicaPorData(medicoId, dataConsulta, medicoGateway);
 
             var novaConsulta = await consultaGateway.Cadastrar(consulta);
 

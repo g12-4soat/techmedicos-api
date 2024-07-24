@@ -5,6 +5,7 @@ using TechMedicos.Application.Gateways;
 using TechMedicos.Application.Gateways.Interfaces;
 using TechMedicos.Application.Ports.Repositories;
 using TechMedicos.Application.UseCases.Consultas;
+using TechMedicos.Domain.Aggregates;
 using TechMedicos.Domain.Enums;
 
 namespace TechMedicos.Application.Controllers
@@ -42,13 +43,8 @@ namespace TechMedicos.Application.Controllers
 
         public async Task<ConsultaResponseDTO> CadastrarConsulta(string medicoId, string pacienteId, DateTime dataConsulta)
         {
-            await ConsultaUseCases.Cadastrar(medicoId, pacienteId, dataConsulta, _consultaGateway, _medicoGateway, _pacienteGateway);
-
-            //consultar e validar se o médico existe         - ok
-            //consultar e validar se o paciente existe       - ok
-            //Validar horário da agenda médica com a data informada para saber se está disponivel 
-            //remover o decimal do valor, pq é estabelicido na domain do médico - Ok
-            throw new NotImplementedException();
+            var consulta = await ConsultaUseCases.Cadastrar(medicoId, pacienteId, dataConsulta, _consultaGateway, _medicoGateway, _pacienteGateway);
+            return consulta.Adapt<ConsultaResponseDTO>();
         }
     }
 }

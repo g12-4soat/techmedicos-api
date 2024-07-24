@@ -25,7 +25,7 @@ namespace TechMedicos.Domain.Aggregates
         }
 
         private readonly List<AgendaMedica> _agendas;
-        public IReadOnlyCollection<AgendaMedica> agendas => _agendas;
+        public IReadOnlyCollection<AgendaMedica> Agendas => _agendas;
         public Crm Crm { get; private set; }
         public decimal ValorConsulta { get; private set; }
         public IReadOnlyCollection<Consulta> Consultas { get; private set; } = default!;

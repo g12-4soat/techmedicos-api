@@ -30,7 +30,7 @@ namespace TechMedicos.Adapter.DynamoDB.Repositories
         public async Task<Consulta> Cadastrar(Consulta consulta)
         {
             var medicoDbModel =  new MedicoDbModel(
-                consulta.Medico.Agendamentos,
+                consulta.Medico.Agendas,
                 consulta.Medico.Crm,
                 consulta.Medico.ValorConsulta,
                 consulta.Medico.Nome
