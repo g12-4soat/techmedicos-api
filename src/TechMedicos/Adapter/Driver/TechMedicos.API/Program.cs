@@ -6,7 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 //AWS Secrets Manager
 builder.WebHost.ConfigureAppConfiguration(((_, configurationBuilder) =>
 {
-    configurationBuilder.AddAmazonSecretsManager("us-east-1", "database-credentials");
     configurationBuilder.AddAmazonSecretsManager("us-east-1", "lambda-auth-credentials");
 }));
 
