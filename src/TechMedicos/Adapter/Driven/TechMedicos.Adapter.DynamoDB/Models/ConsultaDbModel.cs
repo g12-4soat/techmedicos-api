@@ -3,6 +3,7 @@ using TechMedicos.Domain.Enums;
 
 namespace TechMedicos.Adapter.DynamoDB.Models
 {
+    [DynamoDBTable("consultas")]
     public class ConsultaDbModel
     {
         public ConsultaDbModel(string medicoId, MedicoDbModel medico, string pacienteId,
@@ -18,6 +19,11 @@ namespace TechMedicos.Adapter.DynamoDB.Models
             Status = status;
             Valor = valor;
             Justificativa = justificativa;
+        }
+
+        public ConsultaDbModel()
+        {
+                
         }
 
         [DynamoDBHashKey]

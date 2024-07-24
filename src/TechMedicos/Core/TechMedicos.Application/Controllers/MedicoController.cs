@@ -30,6 +30,9 @@ namespace TechMedicos.Application.Controllers
         public async Task<AgendaMedicaResponseDTO> BuscarAgenda(string medicoId)
         {
             var medico = await MedicoUseCases.VerificarMedicoExistente(medicoId, _medicoGateway);
+            if (!medico.Agendas.Any())
+                return null;
+
             return medico.Adapt<AgendaMedicaResponseDTO>();
         }
 

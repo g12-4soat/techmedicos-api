@@ -22,7 +22,7 @@ namespace TechMedicos.Adapter.DynamoDB.Repositories
         {
             var medicoDynamoModel = await _context.LoadAsync<MedicoDbModel>(medico.Id);
 
-            medicoDynamoModel.Agendamentos = medico.Agendas;
+            medicoDynamoModel.Agendamentos = medico.Agendas.ToList();
 
             await _context.SaveAsync(medicoDynamoModel);
             return medico;

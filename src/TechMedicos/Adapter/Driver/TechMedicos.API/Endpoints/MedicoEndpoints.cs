@@ -9,7 +9,7 @@ namespace TechMedicos.API.Endpoints
 {
     public static class MedicoEndpoints
     {
-        public static void MapCheckoutEndpoints(this IEndpointRouteBuilder app)
+        public static void MapMedicoEndpoints(this IEndpointRouteBuilder app)
         {
             app.MapGet("api/medicos", BuscarMedicos)
                .WithTags(EndpointTagConstantes.TAG_MEDICO)
@@ -18,7 +18,7 @@ namespace TechMedicos.API.Endpoints
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.NotFound, type: typeof(ErrorResponseDTO), description: "Nenhum médico encontrado"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.InternalServerError, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"))
-               .RequireAuthorization();
+               ;//.RequireAuthorization();
 
             app.MapGet("api/medicos/{medicoId}/agenda", BuscarAgenda)
                .WithTags(EndpointTagConstantes.TAG_MEDICO)
@@ -27,7 +27,7 @@ namespace TechMedicos.API.Endpoints
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.NotFound, type: typeof(ErrorResponseDTO), description: "Agenda não encontrada"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.InternalServerError, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"))
-               .RequireAuthorization();
+               ;//.RequireAuthorization();
 
             app.MapPost("api/medicos/{medicoId}/agenda", CadastrarAgenda)
                .WithTags(EndpointTagConstantes.TAG_MEDICO)
@@ -36,7 +36,7 @@ namespace TechMedicos.API.Endpoints
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.NotFound, type: typeof(ErrorResponseDTO), description: "Falha ao realizar o cadastro"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.InternalServerError, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"))
-               .RequireAuthorization();
+               ;//.RequireAuthorization();
 
             app.MapPut("api/medicos/{medicoId}/agenda/{data}", AtualizarAgenda)
                .WithTags(EndpointTagConstantes.TAG_MEDICO)
@@ -45,7 +45,7 @@ namespace TechMedicos.API.Endpoints
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.NotFound, type: typeof(ErrorResponseDTO), description: "Falha ao realizar a atualização"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.InternalServerError, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"))
-               .RequireAuthorization();
+               ;//.RequireAuthorization();
 
             app.MapDelete("api/medicos/{medicoId}/agenda/{data}", DeletarAgenda)
                .WithTags(EndpointTagConstantes.TAG_MEDICO)//Horário ou da agenda?
@@ -54,7 +54,7 @@ namespace TechMedicos.API.Endpoints
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.NotFound, type: typeof(ErrorResponseDTO), description: "Falha ao realizar a exclusão"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.InternalServerError, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"))
-               .RequireAuthorization();
+               ;//.RequireAuthorization();
         }
 
         private static async Task<IResult> BuscarMedicos([FromServices] IMedicoController medicoController)
@@ -70,9 +70,7 @@ namespace TechMedicos.API.Endpoints
         {
             var agenda = await medicoController.BuscarAgenda(medicoId);
 
-            return agenda is not null
-            ? Results.Ok(agenda)
-            : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Erro ao buscar a agenda.", StatusCode = HttpStatusCode.BadRequest });
+            return Results.Ok(agenda);            
         }
 
         private static async Task<IResult> CadastrarAgenda([FromRoute] string medicoId, [FromBody] AgendaMedicaRequestDTO agendaDto, [FromServices] IMedicoController medicoController)

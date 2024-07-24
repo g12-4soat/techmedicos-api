@@ -17,7 +17,7 @@ namespace TechMedicos.Application.Controllers
         private readonly IMedicoGateway _medicoGateway;
         private readonly IPacienteGateway _pacienteGateway;
 
-        public ConsultaController(IConsultaRepository consultaRepository, IConsultaGateway consultaGateway)
+        public ConsultaController(IConsultaRepository consultaRepository)
         {
             _consultaRepository = consultaRepository;
             _consultaGateway = new ConsultaGateway(_consultaRepository);
