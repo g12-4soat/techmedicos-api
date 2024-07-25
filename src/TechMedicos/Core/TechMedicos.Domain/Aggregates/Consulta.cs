@@ -58,12 +58,12 @@ namespace TechMedicos.Domain.Aggregates
             Status = StatusConsulta.Confirmada;
         }
 
-        public void Recusar(string? justificativa = "Necessário reagendamento")
+        public void Recusar(string? justificativa = null)
         {
             if (Status != StatusConsulta.Agendada)
                 throw new DomainException("Para recusar a consulta ela deve estar agendada.");
 
-            Justificativa = justificativa;
+            Justificativa = string.IsNullOrEmpty(justificativa)? "Necessário reagendar": justificativa;
             Status = StatusConsulta.Rejeitada;
         }
 

@@ -41,6 +41,13 @@ namespace TechMedicos.Application.DTOs
         /// <example>Agendada</example>
         public string Status { get; set; }
 
+
+        /// <summary>
+        /// Justificativa Status da consulta
+        /// </summary>
+        /// <example>Ausente</example>
+        public string Justificativa { get; set; }
+
         /// <summary>
         /// Valor da consulta
         /// </summary>
