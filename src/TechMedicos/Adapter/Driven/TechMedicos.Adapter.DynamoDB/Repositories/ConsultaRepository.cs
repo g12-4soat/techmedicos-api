@@ -80,7 +80,7 @@ namespace TechMedicos.Adapter.DynamoDB.Repositories
 
             consulta.SetMedico(consultaDynamoModel.Medico.Adapt<Medico>());
             consulta.SetPaciente(consultaDynamoModel.Paciente.Adapt<Paciente>());
-
+            consulta.SetJustificativa(consultaDynamoModel.Justificativa);
             return consulta;
         }
 
@@ -107,6 +107,8 @@ namespace TechMedicos.Adapter.DynamoDB.Repositories
 
                 consulta.SetMedico(consultaDynamoModel.Medico.Adapt<Medico>());
                 consulta.SetPaciente(consultaDynamoModel.Paciente.Adapt<Paciente>());
+                consulta.SetJustificativa(consultaDynamoModel.Justificativa);
+
                 return consulta;
             }).ToList();
 
