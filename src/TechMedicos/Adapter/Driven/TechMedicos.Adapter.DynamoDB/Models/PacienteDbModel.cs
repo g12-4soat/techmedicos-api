@@ -14,6 +14,14 @@ namespace TechMedicos.Adapter.DynamoDB.Models
             Email = email.EnderecoEmail;
             Nome = nome;
         }
+
+        public PacienteDbModel(string pacienteId, Cpf cpf, Email email, string nome)
+        {
+            Id = pacienteId;
+            Cpf = cpf.Numero;
+            Email = email.EnderecoEmail;
+            Nome = nome;
+        }
         public PacienteDbModel()
         {
                 

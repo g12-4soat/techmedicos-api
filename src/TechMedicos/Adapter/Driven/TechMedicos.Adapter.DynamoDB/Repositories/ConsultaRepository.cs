@@ -1,5 +1,6 @@
 ﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
+using Mapster;
 using TechMedicos.Adapter.DynamoDB.Models;
 using TechMedicos.Application.Ports.Repositories;
 using TechMedicos.Domain.Aggregates;
@@ -30,7 +31,8 @@ namespace TechMedicos.Adapter.DynamoDB.Repositories
 
         public async Task<Consulta> Cadastrar(Consulta consulta)
         {
-            var medicoDbModel =  new MedicoDbModel(
+            var medicoDbModel = new MedicoDbModel(
+                consulta.MedicoId,
                 consulta.Medico.Agendas,
                 consulta.Medico.Crm,
                 consulta.Medico.ValorConsulta,
@@ -38,6 +40,7 @@ namespace TechMedicos.Adapter.DynamoDB.Repositories
                );
 
             var pacienteDbModel = new PacienteDbModel(
+                    consulta.PacienteId,
                     consulta.Paciente.Cpf,
                     consulta.Paciente.Email,
                     consulta.Paciente.Nome
@@ -75,6 +78,9 @@ namespace TechMedicos.Adapter.DynamoDB.Repositories
                     consultaDynamoModel.Status
                 );
 
+            consulta.SetMedico(consultaDynamoModel.Medico.Adapt<Medico>());
+            consulta.SetPaciente(consultaDynamoModel.Paciente.Adapt<Paciente>());
+            consulta.SetJustificativa(consultaDynamoModel.Justificativa);
             return consulta;
         }
 
@@ -87,14 +93,24 @@ namespace TechMedicos.Adapter.DynamoDB.Repositories
             if (consultasDbModel is null)
                 return null;
 
-            var consultas = consultasDbModel.Select(consultaDynamoModel => new Consulta
-                (
-                   consultaDynamoModel.MedicoId,
-                   consultaDynamoModel.PacienteId,
-                   consultaDynamoModel.DataConsulta,
-                   consultaDynamoModel.Valor
-                )
-            ).ToList();
+
+            var consultas = consultasDbModel.Select(consultaDynamoModel =>
+            {
+                var consulta = new Consulta(
+                    consultaDynamoModel.Id,
+                    consultaDynamoModel.MedicoId,
+                    consultaDynamoModel.PacienteId,
+                    consultaDynamoModel.DataConsulta,
+                    consultaDynamoModel.Valor,
+                    consultaDynamoModel.Status
+                );
+
+                consulta.SetMedico(consultaDynamoModel.Medico.Adapt<Medico>());
+                consulta.SetPaciente(consultaDynamoModel.Paciente.Adapt<Paciente>());
+                consulta.SetJustificativa(consultaDynamoModel.Justificativa);
+
+                return consulta;
+            }).ToList();
 
             return consultas;
         }

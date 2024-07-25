@@ -40,9 +40,12 @@ namespace TechMedicos.Application.UseCases.Consultas
             IPacienteGateway pacienteGateway)
         {
             var medico = await MedicoUseCases.VerificarMedicoExistente(medicoId, medicoGateway);
-            await PacienteUseCases.VerificarPacienteExistente(pacienteId, pacienteGateway);
-            var consulta = new Consulta(medicoId, pacienteId, dataConsulta, medico.ValorConsulta);
+            var paciente = await PacienteUseCases.VerificarPacienteExistente(pacienteId, pacienteGateway);
             await MedicoUseCases.ValidarAgendaMedicaPorData(medicoId, dataConsulta, medicoGateway);
+
+            var consulta = new Consulta(medicoId, pacienteId, dataConsulta, medico.ValorConsulta);
+            consulta.SetMedico(medico);
+            consulta.SetPaciente(paciente);
 
             var novaConsulta = await consultaGateway.Cadastrar(consulta);
 
@@ -72,8 +75,11 @@ namespace TechMedicos.Application.UseCases.Consultas
                 case StatusConsulta.Cancelada:
                     consulta.Cancelar(justificativa);
                     break;
+                case StatusConsulta.Realizada:
+                    consulta.Realizar();
+                    break;
                 default:
-                    throw new ArgumentException($"Status da consulta inválido: {statusConsulta}");
+                    throw new DomainException($"Status da consulta inválido: {statusConsulta}");
             }
         }
     }

@@ -21,6 +21,21 @@ namespace TechMedicos.Adapter.DynamoDB.Models
             Justificativa = justificativa;
         }
 
+        public ConsultaDbModel(string id, string medicoId, MedicoDbModel medico, string pacienteId,
+           PacienteDbModel paciente, DateTime dataConsulta, StatusConsulta status,
+           decimal valor, string? justificativa)
+        {
+            Id = id;
+            MedicoId = medicoId;
+            Medico = medico;
+            PacienteId = pacienteId;
+            Paciente = paciente;
+            DataConsulta = dataConsulta;
+            Status = status;
+            Valor = valor;
+            Justificativa = justificativa;
+        }
+
         public ConsultaDbModel()
         {
                 
