@@ -75,6 +75,9 @@ namespace TechMedicos.Application.UseCases.Consultas
                 case StatusConsulta.Cancelada:
                     consulta.Cancelar(justificativa);
                     break;
+                case StatusConsulta.Realizada:
+                    consulta.Realizar();
+                    break;
                 default:
                     throw new DomainException($"Status da consulta inválido: {statusConsulta}");
             }

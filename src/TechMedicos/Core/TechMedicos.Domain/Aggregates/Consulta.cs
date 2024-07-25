@@ -58,7 +58,7 @@ namespace TechMedicos.Domain.Aggregates
             Status = StatusConsulta.Confirmada;
         }
 
-        public void Recusar(string? justificativa = null)
+        public void Recusar(string? justificativa = "Necessário reagendamento")
         {
             if (Status != StatusConsulta.Agendada)
                 throw new DomainException("Para recusar a consulta ela deve estar agendada.");
@@ -83,8 +83,6 @@ namespace TechMedicos.Domain.Aggregates
             if (Status == StatusConsulta.Realizada)
                 throw new DomainException("A consulta não pode ser cancelada pois ela já foi realizada.");
 
-            ArgumentException.ThrowIfNullOrWhiteSpace(justificativa);
-
             if (justificativa.Length < 3 || justificativa.Length > 500)
                 throw new DomainException("Justificativa precisa ter entre 3 e 500 caracteres");
 
@@ -100,6 +98,11 @@ namespace TechMedicos.Domain.Aggregates
         public void SetPaciente(Paciente paciente)
         {
             this.Paciente = paciente;
+        }
+
+        public void SetJustificativa(string? justificativa)
+        {
+            this.Justificativa = justificativa;
         }
     }
 }
