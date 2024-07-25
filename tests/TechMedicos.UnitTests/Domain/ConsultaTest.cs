@@ -68,10 +68,8 @@ namespace TechMedicos.UnitTests.Domain
             Assert.Throws<DomainException>(() => consulta.Aceitar());
         }
 
-        [Theory]
-        [InlineData("Sem justificativa")]
-        [InlineData(null)]
-        public void RecusarConsulta_DeveRetornarSucesso(string? justificativa)
+        [Fact]
+        public void RecusarConsultaComJustificativaPadrao_DeveRetornarSucesso()
         {
             // Arrange
             string medicoId = Guid.NewGuid().ToString();
@@ -79,7 +77,25 @@ namespace TechMedicos.UnitTests.Domain
             DateTime dataConsulta = DateTime.Now;
             decimal valor = 100;
             var consulta = new Consulta(medicoId, pacienteId, dataConsulta, valor);
+            string justificativa = null;
+            // Act
+            consulta.Recusar(justificativa);
 
+            // Assert
+            Assert.Equal(StatusConsulta.Rejeitada, consulta.Status);
+            Assert.Equal("Necessário reagendar", consulta.Justificativa);
+        }
+
+        [Fact]
+        public void RecusarConsulta_DeveRetornarSucesso()
+        {
+            // Arrange
+            string medicoId = Guid.NewGuid().ToString();
+            string pacienteId = Guid.NewGuid().ToString();
+            DateTime dataConsulta = DateTime.Now;
+            decimal valor = 100;
+            var consulta = new Consulta(medicoId, pacienteId, dataConsulta, valor);
+            string justificativa = "justificativa";
             // Act
             consulta.Recusar(justificativa);
 
