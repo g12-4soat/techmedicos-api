@@ -19,7 +19,7 @@ namespace TechMedicos.API.Endpoints
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.NotFound, type: typeof(ErrorResponseDTO), description: "Falha ao realizar a criação da consulta"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.InternalServerError, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"))
-               ;//.RequireAuthorization();
+               .RequireAuthorization();
 
             app.MapPut("api/consultas/{consultaId}/status", AtualizarConsulta)
                .WithTags(EndpointTagConstantes.TAG_CONSULTA)
@@ -28,7 +28,7 @@ namespace TechMedicos.API.Endpoints
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.NotFound, type: typeof(ErrorResponseDTO), description: "Consulta não encontrada"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.InternalServerError, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"))
-               ;//.RequireAuthorization();
+               .RequireAuthorization();
 
             app.MapGet("api/consultas/{consultaId}", BuscarConsultaPorId)
                .WithTags(EndpointTagConstantes.TAG_CONSULTA)
@@ -37,7 +37,7 @@ namespace TechMedicos.API.Endpoints
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.NotFound, type: typeof(ErrorResponseDTO), description: "Consulta não encontrada"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.InternalServerError, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"))
-               ;//.RequireAuthorization();
+               .RequireAuthorization();
 
             app.MapGet("api/consultas", BuscarConsultas)
                .WithTags(EndpointTagConstantes.TAG_CONSULTA)
@@ -46,7 +46,7 @@ namespace TechMedicos.API.Endpoints
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.NotFound, type: typeof(ErrorResponseDTO), description: "Consulta não encontrada"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.InternalServerError, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"))
-               ;//.RequireAuthorization();
+               .RequireAuthorization();
         }
 
         private static async Task<IResult> CadastrarConsulta([FromBody] ConsultaCadastrarRequestDTO consultaDto, [FromServices] IConsultaController consultaController)
