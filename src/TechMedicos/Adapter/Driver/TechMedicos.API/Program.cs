@@ -4,13 +4,9 @@ using TechMedicos.Adapter.AWS.SecretsManager;
 var builder = WebApplication.CreateBuilder(args);
 
 //AWS Secrets Manager
-builder.WebHost.ConfigureAppConfiguration(((_, configurationBuilder) =>
-{
-    configurationBuilder.AddAmazonSecretsManager("us-east-1", "lambda-auth-credentials");
-}));
+builder.Configuration.AddAmazonSecretsManager("us-east-1", "lambda-auth-credentials");
 
-
-//builder.Services.Configure<TechLanchesCognitoSecrets>(builder.Configuration);
+builder.Services.Configure<TechLanchesCognitoSecrets>(builder.Configuration);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
