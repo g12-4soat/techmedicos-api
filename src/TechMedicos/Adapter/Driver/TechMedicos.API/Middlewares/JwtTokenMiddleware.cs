@@ -1,38 +1,33 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Caching.Memory;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
+using TechMedicos.Core;
+using TechMedicos.Domain.Enums;
 using TechMedicos.Domain.ValueObjects;
 
 namespace TechMedicos.API.Middlewares
 {
     public class JwtTokenMiddleware : IMiddleware
     {
-        private readonly IMemoryCache _memoryCache;
         private readonly ILogger<JwtTokenMiddleware> _logger;
 
         public JwtTokenMiddleware(
-            IMemoryCache memoryCache,
             ILogger<JwtTokenMiddleware> logger)
         {
-            _memoryCache = memoryCache;
             _logger = logger;
         }
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             // Get the token from the Authorization header
-            var token = await context.GetTokenAsync("token_id")
+            var token = await context.GetTokenAsync("access_token")
                 ?? context.Request.Headers.Authorization.ToString().Replace("Bearer ", "");
 
-            if (token is not null)
+            if (!string.IsNullOrEmpty(token))
             {
-                //put token in cache
-                _memoryCache.Set("token", token, TimeSpan.FromMinutes(5));
-
-                _logger.LogInformation("Token salvo no cache");
-
                 try
                 {
                     var claimsPrincipal = ExtractClaimsFromJwt(token);
@@ -42,9 +37,11 @@ namespace TechMedicos.API.Middlewares
                     var userIdClaim = claimsPrincipal.FindFirst("username");
                     var userId = userIdClaim?.Value;
 
+                    var tipoUsuario = RetornaTipoUsuario(userId!);
+
                     // Store the user ID in the HttpContext items for later use
-                    context.Items[nameof(Cpf)] = userId;
-                    context.Items[nameof(Crm)] = userId;
+                    //context.Items[nameof(Cpf)] = userId;
+                    //context.Items[nameof(Crm)] = userId;
                 }
                 catch (Exception)
                 {
@@ -56,6 +53,46 @@ namespace TechMedicos.API.Middlewares
 
             // Continue processing the request
             await next(context);
+        }
+
+        public TipoUsuario RetornaTipoUsuario(string userId)
+        {
+            bool isCpf = false;
+            bool isCrm = false;
+
+            try
+            {
+                var cpf = new Cpf(userId);
+                isCpf = true;
+            }
+            catch
+            {
+
+            }
+
+            try
+            {
+                if (!userId.Contains('/'))
+                {
+                    userId = userId.Insert(userId.Length - 2, "/");
+                }
+
+                var crm = new Crm(userId);
+                isCrm = true;
+            }
+            catch
+            {
+
+            }
+
+            if (!isCpf && !isCrm)
+            {
+                throw new DomainException("Tipo de usuário não suportado");
+            }
+
+            return isCpf
+                ? TipoUsuario.Paciente
+                : TipoUsuario.Medico;
         }
 
         private static ClaimsPrincipal ExtractClaimsFromJwt(string token)
