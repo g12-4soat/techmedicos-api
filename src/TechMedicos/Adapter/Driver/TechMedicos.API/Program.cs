@@ -23,6 +23,7 @@ builder.Services.AddDependencyInjectionConfiguration();
 
 //Setting mapster
 builder.Services.RegisterMaps();
+builder.Services.AddHealthChecks();
 
 
 builder.Services.AddSwaggerGen();
