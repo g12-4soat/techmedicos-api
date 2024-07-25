@@ -1,4 +1,4 @@
-<p dir="auto"><img src="https://github.com/g12-4soat/tech-medicos/blob/main/src/Techmedicos/Adapter/Driver/Techmedicos.Adapter.API/wwwroot/SwaggerUI/images/android-chrome-192x192.png" alt="TECHmedicos" title="TECHmedicos" align="right" height="60" style="max-width: 100%;"></p>
+<p dir="auto"><img src="https://github.com/g12-4soat/techmedicos-iac/blob/main/docs/Imagem/logo-techmedicos.png" alt="TECHMEDICOS" title="TECHMEDICOS" align="right" height="60" style="max-width: 100%;"></p>
 
 # Tech Medicos API
 Projeto Hackaton
@@ -39,12 +39,11 @@ Da raiz do repositório, entre no diretório ./k8s (onde se encontram todos os m
 
 ## Postman 
 Para importar as collections do postman, basta acessar os links a seguir:
-- Collection: ADD COLLECTION
-- Local Environment: ADD ENVIRONMENT
+- Collection: https://github.com/g12-4soat/techmedicos-docs/blob/main/collections/Tech%20Medicos%20Hackaton%20API.postman_collection.json
+- Local Environment: https://github.com/g12-4soat/techmedicos-docs/blob/main/collections/Tech%20Medicos%20Hackaton%20Auth.postman_collection.json
 
 > Quando uma nova instância do API Gateway é criada, uma nova URL é gerada, exigindo a atualização manual da URL na Enviroment do Postman.
   ---
-
 
 </details>
 
