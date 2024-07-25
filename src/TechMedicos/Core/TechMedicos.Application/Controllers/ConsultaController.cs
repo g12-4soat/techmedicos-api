@@ -17,10 +17,12 @@ namespace TechMedicos.Application.Controllers
         private readonly IMedicoGateway _medicoGateway;
         private readonly IPacienteGateway _pacienteGateway;
 
-        public ConsultaController(IConsultaRepository consultaRepository)
+        public ConsultaController(IConsultaRepository consultaRepository, IPacienteRepository pacienteRepository, IMedicoRepository medicoRepository)
         {
             _consultaRepository = consultaRepository;
             _consultaGateway = new ConsultaGateway(_consultaRepository);
+            _medicoGateway = new MedicoGateway(medicoRepository);
+            _pacienteGateway = new PacienteGateway(pacienteRepository);
         }
 
         public async Task<ConsultaResponseDTO> AtualizarConsulta(string consultaId, StatusConsulta statusConsulta, string justificativa)

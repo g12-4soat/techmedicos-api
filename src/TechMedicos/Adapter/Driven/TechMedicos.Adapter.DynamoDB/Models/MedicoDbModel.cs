@@ -16,6 +16,14 @@ namespace TechMedicos.Adapter.DynamoDB.Models
             ValorConsulta = valorConsulta;
             Nome = nome;
         }
+        public MedicoDbModel(string medicoId, IEnumerable<AgendaMedica>? agendamentos, Crm crm, decimal valorConsulta, string nome)
+        {
+            Id = medicoId;
+            Agendamentos = agendamentos.ToList();
+            Crm = crm.Documento;
+            ValorConsulta = valorConsulta;
+            Nome = nome;
+        }
 
         public MedicoDbModel()
         {
