@@ -40,8 +40,7 @@ namespace TechMedicos.API.Middlewares
                     var tipoUsuario = RetornaTipoUsuario(userId!);
 
                     // Store the user ID in the HttpContext items for later use
-                    //context.Items[nameof(Cpf)] = userId;
-                    //context.Items[nameof(Crm)] = userId;
+                    context.Items[nameof(TipoUsuario)] = tipoUsuario.ToString();
                 }
                 catch (Exception)
                 {
@@ -65,10 +64,7 @@ namespace TechMedicos.API.Middlewares
                 var cpf = new Cpf(userId);
                 isCpf = true;
             }
-            catch
-            {
-
-            }
+            catch { }
 
             try
             {
@@ -80,10 +76,7 @@ namespace TechMedicos.API.Middlewares
                 var crm = new Crm(userId);
                 isCrm = true;
             }
-            catch
-            {
-
-            }
+            catch { }
 
             if (!isCpf && !isCrm)
             {
