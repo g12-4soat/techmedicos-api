@@ -2,7 +2,7 @@
 {
     public enum StatusConsulta
     {
-        Agendada,
+        Agendada = 1,
         Confirmada,
         Rejeitada,
         Realizada,

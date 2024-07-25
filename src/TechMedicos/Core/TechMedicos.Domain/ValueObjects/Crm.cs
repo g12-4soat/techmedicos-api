@@ -19,7 +19,7 @@ namespace TechMedicos.Domain.ValueObjects
             string documentoLimpo = LimparCrm(documento);
 
             // Verifica se o CRM está no formato correto
-            if (!Regex.IsMatch(documentoLimpo, @"^\d{4,10}/[A-Z]{2}$"))
+            if (!Regex.IsMatch(documentoLimpo, @"^\d{4,10}/[A-Za-z]{2}$"))
             {
                 return false;
             }
@@ -40,7 +40,7 @@ namespace TechMedicos.Domain.ValueObjects
         private static string LimparCrm(string documento)
         {
             // Remove caracteres não numéricos, exceto a barra e as letras
-            return Regex.Replace(documento, @"[^\d/A-Z]", "");
+            return Regex.Replace(documento, @"[^\d/A-Za-z]", "");
         }
 
         protected override IEnumerable<object> RetornarPropriedadesDeEquidade()

@@ -5,6 +5,7 @@ using TechMedicos.API.Constantes;
 using TechMedicos.Application.Controllers;
 using TechMedicos.Application.Controllers.Interfaces;
 using TechMedicos.Application.DTOs;
+using TechMedicos.Domain.Enums;
 
 namespace TechMedicos.API.Endpoints
 {
@@ -19,7 +20,7 @@ namespace TechMedicos.API.Endpoints
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.NotFound, type: typeof(ErrorResponseDTO), description: "Falha ao realizar a criação da consulta"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.InternalServerError, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"))
-               ;//.RequireAuthorization();
+               .RequireAuthorization();
 
             app.MapPut("api/consultas/{consultaId}/status", AtualizarConsulta)
                .WithTags(EndpointTagConstantes.TAG_CONSULTA)
@@ -28,7 +29,7 @@ namespace TechMedicos.API.Endpoints
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.NotFound, type: typeof(ErrorResponseDTO), description: "Consulta não encontrada"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.InternalServerError, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"))
-               ;//.RequireAuthorization();
+               .RequireAuthorization();
 
             app.MapGet("api/consultas/{consultaId}", BuscarConsultaPorId)
                .WithTags(EndpointTagConstantes.TAG_CONSULTA)
@@ -37,7 +38,7 @@ namespace TechMedicos.API.Endpoints
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.NotFound, type: typeof(ErrorResponseDTO), description: "Consulta não encontrada"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.InternalServerError, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"))
-               ;//.RequireAuthorization();
+               .RequireAuthorization();
 
             app.MapGet("api/consultas", BuscarConsultas)
                .WithTags(EndpointTagConstantes.TAG_CONSULTA)
@@ -46,7 +47,7 @@ namespace TechMedicos.API.Endpoints
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.NotFound, type: typeof(ErrorResponseDTO), description: "Consulta não encontrada"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.InternalServerError, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"))
-               ;//.RequireAuthorization();
+               .RequireAuthorization();
         }
 
         private static async Task<IResult> CadastrarConsulta([FromBody] ConsultaCadastrarRequestDTO consultaDto, [FromServices] IConsultaController consultaController)
@@ -61,16 +62,54 @@ namespace TechMedicos.API.Endpoints
             : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Erro ao cadastrar a consulta.", StatusCode = HttpStatusCode.BadRequest });
         }
 
-        private static async Task<IResult> AtualizarConsulta([FromRoute] string consultaId, [FromBody] ConsultaAtualizarRequestDTO consultaDto, [FromServices] IConsultaController consultaController)
+        private static async Task<IResult> AtualizarConsulta(
+            [FromRoute] string consultaId,
+            [FromBody] ConsultaAtualizarRequestDTO consultaDto,
+            [FromServices] IConsultaController consultaController,
+            HttpContext context)
         {
-            var consulta = await consultaController.AtualizarConsulta(
+            var valido = ValidarRequisição(consultaDto.Status, context);
+
+            if (valido)
+            {
+                var consulta = await consultaController.AtualizarConsulta(
                 consultaId,
                 consultaDto.Status,
                 consultaDto.Justificativa);
 
-            return consulta is not null
-            ? Results.Ok(consulta)
-            : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Erro ao atualizar a consulta.", StatusCode = HttpStatusCode.BadRequest });
+                return consulta is not null
+                ? Results.Ok(consulta)
+                : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Erro ao atualizar a consulta.", StatusCode = HttpStatusCode.BadRequest });
+            }
+
+            return Results.Json(
+                new ErrorResponseDTO { MensagemErro = "O tipo de usuário não permite essa operação.", StatusCode = HttpStatusCode.Forbidden },
+                statusCode: (int)HttpStatusCode.Forbidden);
+        }
+
+        private static bool ValidarRequisição(StatusConsulta status, HttpContext context)
+        {
+            var tipoUsuario = Enum.Parse<TipoUsuario>(context.Items[nameof(TipoUsuario)]?.ToString()!);
+
+            if (status == StatusConsulta.Agendada)
+            {
+                return false;
+            }
+
+            if (tipoUsuario == TipoUsuario.Paciente &&
+                (status == StatusConsulta.Confirmada
+                || status == StatusConsulta.Rejeitada
+                || status == StatusConsulta.Realizada))
+            {
+                return false;
+            }
+
+            if (tipoUsuario == TipoUsuario.Medico && status == StatusConsulta.Cancelada)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private static async Task<IResult> BuscarConsultaPorId([FromRoute] string consultaId, [FromServices] IConsultaController consultaController)
