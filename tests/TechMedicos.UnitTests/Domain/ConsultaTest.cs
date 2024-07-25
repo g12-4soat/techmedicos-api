@@ -157,7 +157,7 @@ namespace TechMedicos.UnitTests.Domain
         [Theory]
         [InlineData("")]
         [InlineData(" ")]
-        public void CancelarConsulta_JustificativaInvalida_DeveLancarArgumentException(string justificativa)
+        public void CancelarConsulta_JustificativaVazia_DeveLancarDomainException(string justificativa)
         {
             // Arrange
             string medicoId = Guid.NewGuid().ToString();
@@ -167,7 +167,7 @@ namespace TechMedicos.UnitTests.Domain
             var consulta = new Consulta(medicoId, pacienteId, dataConsulta, valor);
 
             // Act & Assert
-            Assert.Throws<ArgumentException>(() => consulta.Cancelar(justificativa));
+            Assert.Throws<DomainException>(() => consulta.Cancelar(justificativa));
         }
 
         [Theory]
