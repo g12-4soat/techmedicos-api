@@ -91,5 +91,15 @@ namespace TechMedicos.Domain.Aggregates
             Justificativa = justificativa;
             Status = StatusConsulta.Cancelada;
         }
+
+        public void SetMedico(Medico medico)
+        {
+            this.Medico = medico;
+        }
+
+        public void SetPaciente(Paciente paciente)
+        {
+            this.Paciente = paciente;
+        }
     }
 }

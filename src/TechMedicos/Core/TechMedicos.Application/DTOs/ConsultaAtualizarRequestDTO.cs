@@ -12,11 +12,6 @@ namespace TechMedicos.Application.DTOs
     /// </summary>
     public class ConsultaAtualizarRequestDTO
     {
-        /// <summary>
-        /// Id da consulta
-        /// </summary>
-        /// <example>1</example>
-        public int ConsultaId { get; set; }
 
         /// <summary>
         /// Status da consulta
