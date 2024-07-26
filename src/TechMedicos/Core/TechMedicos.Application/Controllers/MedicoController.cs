@@ -5,6 +5,7 @@ using TechMedicos.Application.Gateways;
 using TechMedicos.Application.Gateways.Interfaces;
 using TechMedicos.Application.Ports.Repositories;
 using TechMedicos.Application.UseCases.Medicos;
+using TechMedicos.Domain.Enums;
 using TechMedicos.Domain.ValueObjects;
 
 namespace TechMedicos.Application.Controllers
@@ -54,9 +55,25 @@ namespace TechMedicos.Application.Controllers
             }).ToList();
         }
 
-        public async Task<List<MedicoResponseDTO>> BuscarMedicos()
+        public async Task<List<MedicoResponseDTO>> BuscarMedicos(EspecialidadeMedica? especialidade, int? distanciaKm, decimal? avaliacao)
         {
             var medicos = await _medicoGateway.ObterTodos();
+
+            if (especialidade is not null)
+            {
+                medicos = medicos.Where(x => x.Especialidade == especialidade).ToList();
+            }
+
+            if (especialidade is not null)
+            {
+                medicos = medicos.Where(x => x.DistanciaKm <= distanciaKm).ToList();
+            }
+
+            if (especialidade is not null)
+            {
+                medicos = medicos.Where(x => x.Avaliacao >= avaliacao).ToList();
+            }
+
             return medicos.Adapt<List<MedicoResponseDTO>>();
         }
 

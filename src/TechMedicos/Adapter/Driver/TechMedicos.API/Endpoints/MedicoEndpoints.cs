@@ -4,6 +4,7 @@ using System.Net;
 using TechMedicos.API.Constantes;
 using TechMedicos.Application.Controllers.Interfaces;
 using TechMedicos.Application.DTOs;
+using TechMedicos.Domain.Enums;
 
 namespace TechMedicos.API.Endpoints
 {
@@ -57,9 +58,13 @@ namespace TechMedicos.API.Endpoints
                .RequireAuthorization();
         }
 
-        private static async Task<IResult> BuscarMedicos([FromServices] IMedicoController medicoController)
+        private static async Task<IResult> BuscarMedicos(
+            [FromQuery] EspecialidadeMedica? especialidade,
+            [FromQuery] int? distanciaKm, 
+            [FromQuery] decimal? avaliacao,
+            [FromServices] IMedicoController medicoController)
         {
-            var medicos = await medicoController.BuscarMedicos();
+            var medicos = await medicoController.BuscarMedicos(especialidade, distanciaKm, avaliacao);
 
             return medicos is not null
             ? Results.Ok(medicos)

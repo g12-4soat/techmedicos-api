@@ -1,6 +1,7 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 using TechMedicos.Adapter.DynamoDB.Models.Converter;
 using TechMedicos.Domain.Aggregates;
+using TechMedicos.Domain.Enums;
 using TechMedicos.Domain.ValueObjects;
 
 namespace TechMedicos.Adapter.DynamoDB.Models
@@ -38,6 +39,10 @@ namespace TechMedicos.Adapter.DynamoDB.Models
         public string Crm { get; set; }
         public decimal ValorConsulta { get; set; }
         public string Nome { get; set; }
+
+        public int DistanciaKm { get; set; }
+        public decimal Avaliacao { get; set; }
+        public EspecialidadeMedica Especialidade { get; set; }
 
         //public class AgendaMedicaDbModel
         //{

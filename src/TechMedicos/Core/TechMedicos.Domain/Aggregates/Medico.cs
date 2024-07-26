@@ -1,21 +1,48 @@
 ﻿using TechMedicos.Core;
 using TechMedicos.Domain.Entities;
+using TechMedicos.Domain.Enums;
 using TechMedicos.Domain.ValueObjects;
 
 namespace TechMedicos.Domain.Aggregates
 {
     public class Medico : Usuario, IAggregateRoot
     {
-        public Medico(string nome, string crm, decimal valorConsulta)
+        public Medico(
+            string nome,
+            string crm,
+            decimal valorConsulta)
             : base(nome)
         {
             Crm = new Crm(crm);
             ValorConsulta = valorConsulta;
-            _agendas = new List<AgendaMedica>();
+            _agendas = new();
             Validar();
         }
 
-        public Medico(string id, string nome, string crm, decimal valorConsulta, List<AgendaMedica> agendas)
+        public Medico(
+            string nome,
+            string crm,
+            decimal valorConsulta,
+            int distanciaKm,
+            decimal avaliacao,
+            EspecialidadeMedica especialidade)
+            : base(nome)
+        {
+            Crm = new Crm(crm);
+            ValorConsulta = valorConsulta;
+            DistanciaKm = distanciaKm;
+            Avaliacao = avaliacao;
+            Especialidade = especialidade;
+            _agendas = new();
+            Validar();
+        }
+
+        public Medico(
+            string id,
+            string nome,
+            string crm,
+            decimal valorConsulta,
+            List<AgendaMedica> agendas)
             : base(id, nome)
         {
             Crm = new Crm(crm);
@@ -24,10 +51,34 @@ namespace TechMedicos.Domain.Aggregates
             Validar();
         }
 
+        public Medico(
+            string id,
+            string nome,
+            string crm,
+            decimal valorConsulta,
+            int distanciaKm,
+            decimal avaliacao,
+            EspecialidadeMedica especialidade,
+            List<AgendaMedica> agendas)
+            : base(id, nome)
+        {
+            Crm = new Crm(crm);
+            ValorConsulta = valorConsulta;
+            DistanciaKm = distanciaKm;
+            Avaliacao = avaliacao;
+            Especialidade = especialidade;
+            _agendas = agendas;
+            Validar();
+        }
+
         private readonly List<AgendaMedica> _agendas;
         public IReadOnlyCollection<AgendaMedica> Agendas => _agendas;
         public Crm Crm { get; private set; }
         public decimal ValorConsulta { get; private set; }
+        public int DistanciaKm { get; private set; }
+        public decimal Avaliacao { get; private set; }
+        public EspecialidadeMedica Especialidade { get; private set; }
+
         public IReadOnlyCollection<Consulta> Consultas { get; private set; } = default!;
 
 
