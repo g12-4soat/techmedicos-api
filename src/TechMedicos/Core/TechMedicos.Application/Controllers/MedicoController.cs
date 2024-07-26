@@ -64,12 +64,12 @@ namespace TechMedicos.Application.Controllers
                 medicos = medicos.Where(x => x.Especialidade == especialidade).ToList();
             }
 
-            if (especialidade is not null)
+            if (distanciaKm is not null)
             {
                 medicos = medicos.Where(x => x.DistanciaKm <= distanciaKm).ToList();
             }
 
-            if (especialidade is not null)
+            if (avaliacao is not null)
             {
                 medicos = medicos.Where(x => x.Avaliacao >= avaliacao).ToList();
             }

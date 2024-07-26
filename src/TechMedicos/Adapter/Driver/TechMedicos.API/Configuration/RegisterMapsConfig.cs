@@ -51,6 +51,9 @@ namespace TechMedicos.API.Configuration
             TypeAdapterConfig<StatusConsulta, string>.NewConfig()
            .MapWith(status => status.ToString());
 
+            TypeAdapterConfig<EspecialidadeMedica, string>.NewConfig()
+            .MapWith(status => status.ToString());
+
             TypeAdapterConfig<Crm, string>.NewConfig()
             .MapWith(crm => crm.Documento);
 
