@@ -54,6 +54,9 @@ namespace TechMedicos.Adapter.DynamoDB.Repositories
                     medicoDynamoModel.Nome,
                     medicoDynamoModel.Crm,
                     medicoDynamoModel.ValorConsulta,
+                    medicoDynamoModel.DistanciaKm,
+                    medicoDynamoModel.Avaliacao,
+                    medicoDynamoModel.Especialidade,
                     medicoDynamoModel.Agendamentos?.ToList() ?? new List<AgendaMedica>()
                 );
 
@@ -75,6 +78,9 @@ namespace TechMedicos.Adapter.DynamoDB.Repositories
                     medicoDynamoModel.Nome,
                     medicoDynamoModel.Crm,
                     medicoDynamoModel.ValorConsulta,
+                    medicoDynamoModel.DistanciaKm,
+                    medicoDynamoModel.Avaliacao,
+                    medicoDynamoModel.Especialidade,
                     medicoDynamoModel.Agendamentos?.ToList() ?? new List<AgendaMedica>()
                 )
             ).ToList();
