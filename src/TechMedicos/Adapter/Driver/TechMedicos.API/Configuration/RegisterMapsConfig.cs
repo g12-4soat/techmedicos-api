@@ -36,7 +36,7 @@ namespace TechMedicos.API.Configuration
 
             TypeAdapterConfig<Consulta, ConsultaResponseDTO>
            .NewConfig()
-           .Map(dest => dest.Medico, src => src.Medico.Adapt<MedicoResponseDTO>())
+           .Map(dest => dest.Medico, src => src.Medico.Adapt<ConsultaMedicoResponseDTO>())
            .Map(dest => dest.Paciente, src => src.Paciente.Adapt<PacienteResponseDTO>());
 
             TypeAdapterConfig<Crm, string>.NewConfig()
