@@ -6,21 +6,6 @@ namespace TechMedicos.Adapter.DynamoDB.Models
     [DynamoDBTable("consultas")]
     public class ConsultaDbModel
     {
-        public ConsultaDbModel(string medicoId, MedicoDbModel medico, string pacienteId,
-            PacienteDbModel paciente, DateTime dataConsulta, StatusConsulta status,
-            decimal valor, string? justificativa)
-        {
-            Id = Guid.NewGuid().ToString();
-            MedicoId = medicoId;
-            Medico = medico;
-            PacienteId = pacienteId;
-            Paciente = paciente;
-            DataConsulta = dataConsulta;
-            Status = status;
-            Valor = valor;
-            Justificativa = justificativa;
-        }
-
         public ConsultaDbModel(string id, string medicoId, MedicoDbModel medico, string pacienteId,
            PacienteDbModel paciente, DateTime dataConsulta, StatusConsulta status,
            decimal valor, string? justificativa)

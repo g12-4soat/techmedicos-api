@@ -17,6 +17,12 @@ namespace TechMedicos.Application.DTOs
         /// <example>2024-07-22</example>
         public DateOnly Data { get; set; }
 
+        /// <summary>
+        /// Valor da consulta médica.
+        /// </summary>
+        /// <example>100</example>
+        public decimal ValorConsulta { get; set; }
+
         public List<HorarioDisponivelResponseDTO> Horarios { get; set; }
     }
 }

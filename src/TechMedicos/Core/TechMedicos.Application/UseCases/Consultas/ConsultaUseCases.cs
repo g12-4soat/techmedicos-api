@@ -41,7 +41,14 @@ namespace TechMedicos.Application.UseCases.Consultas
         {
             var medico = await MedicoUseCases.VerificarMedicoExistente(medicoId, medicoGateway);
             var paciente = await PacienteUseCases.VerificarPacienteExistente(pacienteId, pacienteGateway);
-            await MedicoUseCases.ValidarAgendaMedicaPorData(medicoId, dataConsulta, medicoGateway);
+            var consultas = await consultaGateway.ObterTodos();
+            await MedicoUseCases.ValidarAgendaMedicaPorData(medicoId, dataConsulta, medicoGateway, consultas);
+
+            var consultaJaAgendadaParaPaciente = consultas.Exists(x => x.DataConsulta.Equals(dataConsulta) && x.PacienteId == pacienteId);
+            if (consultaJaAgendadaParaPaciente)
+            {
+                throw new DomainException($"Você já possui consulta agendada para a data informada: {dataConsulta}");
+            }
 
             var consulta = new Consulta(medicoId, pacienteId, dataConsulta, medico.ValorConsulta);
             consulta.SetMedico(medico);

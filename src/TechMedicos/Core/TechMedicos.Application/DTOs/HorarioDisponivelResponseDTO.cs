@@ -15,12 +15,12 @@ namespace TechMedicos.Application.DTOs
         /// Hora inicial.
         /// </summary>
         /// <example>09:00</example>
-        public TimeOnly HoraInicio { get; private set; }
+        public TimeOnly HoraInicio { get; set; }
 
         /// <summary>
         /// Hora final.
         /// </summary>
         /// <example>09:50</example>
-        public TimeOnly HoraFim { get; private set; }
+        public TimeOnly HoraFim { get; set; }
     }
 }

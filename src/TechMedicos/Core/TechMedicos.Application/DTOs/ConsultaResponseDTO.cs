@@ -19,7 +19,7 @@ namespace TechMedicos.Application.DTOs
         /// <example>1</example>
         public string MedicoId { get; set; }
 
-        public MedicoResponseDTO Medico { get; set; }
+        public ConsultaMedicoResponseDTO Medico { get; set; }
 
         /// <summary>
         /// Id do Paciente

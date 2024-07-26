@@ -43,7 +43,11 @@ namespace TechMedicos.Application.UseCases.Medicos
             return medico;
         }
 
-        public static async Task<Medico> ValidarAgendaMedicaPorData(string id, DateTime dataConsulta, IMedicoGateway medicoGateway)
+        public static async Task<Medico> ValidarAgendaMedicaPorData(
+            string id, 
+            DateTime dataConsulta, 
+            IMedicoGateway medicoGateway,
+            List<Consulta> consultas)
         {
             DateOnly dateOnly = DateOnly.FromDateTime(dataConsulta);
             TimeOnly timeOnly = TimeOnly.FromDateTime(dataConsulta);
@@ -60,6 +64,12 @@ namespace TechMedicos.Application.UseCases.Medicos
                 agenda.Horarios.Any(horario => horario.HoraInicio == timeOnly)) == false)
             {
                 throw new DomainException($"Nenhuma agenda disponível para esse horário informado: {dataConsulta}");
+            }
+
+            var consultaJaAgendadaNoMedico = consultas.Exists(x => x.DataConsulta.Equals(dataConsulta) && x.MedicoId == id);
+            if (consultaJaAgendadaNoMedico)
+            {
+                throw new DomainException($"Médico já possui consulta agendada para a data informada: {dataConsulta}");
             }
 
             return medico;

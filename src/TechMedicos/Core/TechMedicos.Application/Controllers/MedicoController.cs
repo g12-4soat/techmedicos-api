@@ -24,7 +24,16 @@ namespace TechMedicos.Application.Controllers
         {
             var horariosVO = horarios.Adapt<List<HorarioDisponivel>>();
             var medico = await MedicoUseCases.AtualizarAgenda(medicoId, data, horariosVO, _medicoGateway);
-            return medico.Agendas.Adapt<List<AgendaMedicaResponseDTO>>();
+            return medico.Agendas.Select(x => new AgendaMedicaResponseDTO
+            {
+                Data = x.Data,
+                Horarios = x.Horarios.Select(h => new HorarioDisponivelResponseDTO
+                {
+                    HoraInicio = h.HoraInicio,
+                    HoraFim = h.HoraFim
+                }).ToList(),
+                ValorConsulta = medico.ValorConsulta
+            }).ToList();
         }
 
         public async Task<List<AgendaMedicaResponseDTO>> BuscarAgenda(string medicoId)
@@ -33,7 +42,16 @@ namespace TechMedicos.Application.Controllers
             if (!medico.Agendas.Any())
                 return null;
 
-            return medico.Agendas.Adapt<List<AgendaMedicaResponseDTO>>();
+            return medico.Agendas.Select(x => new AgendaMedicaResponseDTO
+            {
+                Data = x.Data,
+                Horarios = x.Horarios.Select(h => new HorarioDisponivelResponseDTO
+                {
+                    HoraInicio = h.HoraInicio,
+                    HoraFim = h.HoraFim
+                }).ToList(),
+                ValorConsulta = medico.ValorConsulta
+            }).ToList();
         }
 
         public async Task<List<MedicoResponseDTO>> BuscarMedicos()
@@ -47,7 +65,16 @@ namespace TechMedicos.Application.Controllers
             var horariosVO = horarios.Adapt<List<HorarioDisponivel>>();
             var medico = await MedicoUseCases.CadastrarAgenda(medicoId, data, horariosVO, _medicoGateway);
 
-            return medico.Agendas.Adapt<List<AgendaMedicaResponseDTO>>();
+            return medico.Agendas.Select(x => new AgendaMedicaResponseDTO
+            {
+                Data = x.Data,
+                Horarios = x.Horarios.Select(h => new HorarioDisponivelResponseDTO
+                {
+                    HoraInicio = h.HoraInicio,
+                    HoraFim = h.HoraFim
+                }).ToList(),
+                ValorConsulta = medico.ValorConsulta
+            }).ToList();
         }
 
         public async Task DeletarAgenda(string medicoId, DateOnly data)
