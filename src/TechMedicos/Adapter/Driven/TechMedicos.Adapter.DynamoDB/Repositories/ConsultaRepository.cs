@@ -47,6 +47,7 @@ namespace TechMedicos.Adapter.DynamoDB.Repositories
                 );
 
             var consultaDynamoModel = new ConsultaDbModel(
+                consulta.Id,
                 consulta.MedicoId,
                 medicoDbModel,
                 consulta.PacienteId,
