@@ -62,4 +62,4 @@ Para importar as collections do postman, basta acessar os links a seguir:
 | --- | --- | 
 | Pipeline techmedicos-api | [![Pipeline techmedicos-api](https://github.com/g12-4soat/techmedicos-api/actions/workflows/pipeline-cicd.yml/badge.svg)](https://github.com/g12-4soat/techmedicos-api/actions/workflows/pipeline-cicd.yml)
 
----
+--- 
